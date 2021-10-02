@@ -1,3 +1,11 @@
 module.exports = {
-  reactStrictMode: true,
+	reactStrictMode: true,
+	async rewrites() {
+		return [
+			{
+				source: '/wpapi/:slug*',
+				destination: `https://acf.apph3.com/:slug*`,
+			},
+		]
+	}
 }
