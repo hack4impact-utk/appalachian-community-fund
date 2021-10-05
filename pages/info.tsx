@@ -11,7 +11,7 @@ const DBSearch: React.FC = () => {
     // Dynamically Route to new page on databse search
     const router = useRouter();
     const getSearch = () => {
-        router.push(`search/${append}`);
+        router.push(`info/${append}`);
     };
 
     return (
