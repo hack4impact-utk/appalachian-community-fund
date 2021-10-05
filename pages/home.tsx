@@ -1,6 +1,6 @@
 import React from 'react';
 import Head from 'next/Head'
-import styles from '../styles/Home.module.css'
+import styles from '../styles/Home.module.css';
 
 const Home: React.FC = () => {
     return (    
@@ -14,6 +14,6 @@ const Home: React.FC = () => {
             </main>
         </div>
     );
-}
+};
 
 export default Home;
