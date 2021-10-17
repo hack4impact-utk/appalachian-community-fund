@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Head from 'next/Head'
 import { useRouter } from 'next/router';
 import styles from '../styles/Home.module.css';
+import InfoSearch from '../components/InfoSearch';
 
 const Search: React.FC = () => {
     // React hook UseState
@@ -21,6 +22,7 @@ const Search: React.FC = () => {
             </Head>
             <main className={styles.main}>
                 <h1>Search Page</h1>
+                <InfoSearch></InfoSearch>
                 <form>
                     <label>
                         Search
