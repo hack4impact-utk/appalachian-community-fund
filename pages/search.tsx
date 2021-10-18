@@ -4,16 +4,21 @@ import Head from 'next/Head'
 import { useRouter } from 'next/router';
 import styles from '../styles/Home.module.css';
 import InfoSearch from '../components/InfoSearch';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 const Search: React.FC = () => {
     // React hook UseState
     const[ append, setAppend ] = useState('');
+    const state = {
+        items: Array.from({ length: 20 })
+    };
 
     // Dynamically Route to new page on user search
     const router = useRouter();
     const getSearch = () => {
         router.push(`search/${append}`);
     };
+
 
     return (
         <div className={styles.Container}>
@@ -37,6 +42,20 @@ const Search: React.FC = () => {
                     </label>
                     <button onClick={getSearch}>Submit</button>
                 </form>
+                
+                <InfiniteScroll
+                    dataLength={state.items.length}
+                    next={getSearch}
+                    hasMore={true}
+                    loader={<h4>Loading...</h4>}
+                    endMessage={
+                        <p style={{ textAlign: 'center' }}>
+                        <b>That's everything!</b>
+                        </p>
+                    }
+                >
+                {state.items}
+                </InfiniteScroll>
             </main>
         </div>
     );
