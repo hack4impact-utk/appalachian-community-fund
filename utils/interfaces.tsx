@@ -3,7 +3,8 @@ export interface ArticleMetaData {
     articleName: string,
     articleDescription: string,
     articleDate: Date,
-    articleTags: ArticleTags[]
+    articleTags: ArticleTags[],
+    articleAddress?: string
 }
 
 export enum ArticleTags {
@@ -14,6 +15,24 @@ export enum ArticleTags {
 
 export const testMetaData: ArticleMetaData[] = [
     { id: 1, articleName: "My article 1", articleDescription: "Some cool article", articleDate: new Date(), articleTags: [ArticleTags.Tag1] },
-    { id: 2, articleName: "My Secret plans", articleDescription: "Don't look", articleDate: new Date(), articleTags: [ArticleTags.Tag2] },
-    { id: 3, articleName: "Article 3", articleDescription: "The third article", articleDate: new Date(), articleTags: [ArticleTags.Tag1, ArticleTags.Tag2] }
+    { id: 2, articleName: "My Secret plans", articleDescription: "Don't look", articleDate: new Date(), articleTags: [ArticleTags.Tag2], articleAddress: "123 Main Street" },
+    { id: 3, articleName: "Article 3", articleDescription: "The third article", articleDate: new Date(), articleTags: [ArticleTags.Tag1, ArticleTags.Tag2], articleAddress: "567 Lane" },
+    { id: 4, articleName: "My article 4", articleDescription: "Some Data", articleDate: new Date(), articleTags: [ArticleTags.Tag1] },
+    { id: 5, articleName: "My article 5", articleDescription: "Some more Data", articleDate: new Date(), articleTags: [ArticleTags.Tag2] },
+    { id: 6, articleName: "My article 6", articleDescription: "Some Data", articleDate: new Date(), articleTags: [ArticleTags.Tag1, ArticleTags.Tag2], articleAddress: "Road Ave." },
+    { id: 7, articleName: "My article 7", articleDescription: "Some Data", articleDate: new Date(), articleTags: [ArticleTags.Tag2] },
+    { id: 8, articleName: "My article 8", articleDescription: "Some more Data", articleDate: new Date(), articleTags: [ArticleTags.Tag2] },
+    { id: 9, articleName: "My article 9", articleDescription: "Some Data", articleDate: new Date(), articleTags: [ArticleTags.Tag1, ArticleTags.Tag2] },
+    { id: 10, articleName: "My article 10", articleDescription: "Some Data", articleDate: new Date(), articleTags: [ArticleTags.Tag3] },
+    { id: 11, articleName: "My article 11", articleDescription: "Some more Data", articleDate: new Date(), articleTags: [ArticleTags.Tag2] },
+    { id: 12, articleName: "My article 12", articleDescription: "Some Data", articleDate: new Date(), articleTags: [ArticleTags.Tag1, ArticleTags.Tag2] },
+    { id: 13, articleName: "My article 13", articleDescription: "Some Data", articleDate: new Date(), articleTags: [ArticleTags.Tag1] },
+    { id: 14, articleName: "My article 14", articleDescription: "Some more Data", articleDate: new Date(), articleTags: [ArticleTags.Tag2] },
+    { id: 15, articleName: "My article 15", articleDescription: "Some Data", articleDate: new Date(), articleTags: [ArticleTags.Tag1, ArticleTags.Tag2] },
+    { id: 16, articleName: "My article 16", articleDescription: "Some Data", articleDate: new Date(), articleTags: [ArticleTags.Tag1] },
+    { id: 17, articleName: "My article 17", articleDescription: "Some more Data", articleDate: new Date(), articleTags: [ArticleTags.Tag2] },
+    { id: 18, articleName: "My article 18", articleDescription: "Some Data", articleDate: new Date(), articleTags: [ArticleTags.Tag1, ArticleTags.Tag3], articleAddress: "Some place" },
+    { id: 19, articleName: "My article 19", articleDescription: "Some Data", articleDate: new Date(), articleTags: [ArticleTags.Tag3] },
+    { id: 20, articleName: "My article 20", articleDescription: "Some more Data", articleDate: new Date(), articleTags: [ArticleTags.Tag2] },
+    { id: 21, articleName: "My article 21", articleDescription: "Some Data", articleDate: new Date(), articleTags: [ArticleTags.Tag3, ArticleTags.Tag2] },
 ];
