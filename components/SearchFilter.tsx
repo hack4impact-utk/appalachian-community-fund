@@ -5,25 +5,33 @@ import { searchRegions, searchTags } from '../utils/interfaces';
 
 const SearchFilter: react.FC = () => {
     // useState for tag selection
-    const[ tag, setTag ] = useState('Select Tag');
+    const[ tag, setTag ] = useState('all');
     let handleTagChange = (selection) => {
         setTag(selection.target.value);
     };
 
     // useState for Region selection
-    const[ region, setRegion ] = useState('Select Tag');
+    const[ region, setRegion ] = useState('all');
     let handleRegionChange = (selection) => {
-        setTag(selection.target.value);
+        setRegion(selection.target.value);
     };
 
-    // useState for page routing
-    const[ append, setAppend ] = useState('');
+    // useState for Key word search
+    const[ searchWord, setSearchWord ] = useState('');
+
     // Dynamically Route to new page on user search
     const router = useRouter();
     const getSearch = () => {
-        router.push(`search/${append}`);
+        router.push(`search/${region}/${tag}/${searchWord}`);
     };
 
+
+    let searchParameters = {
+        tagParam: tag,
+        regionParam: region,
+        searchWordParam: searchWord,
+        dateParam: ''
+    };
 
     return (
         <div>
@@ -33,9 +41,9 @@ const SearchFilter: react.FC = () => {
                     <input
                         type="text"
                         onChange={(word) => {
-                            // useState's `setAppend` assigns to value to `append`
+                            // useState's `setsearchWord` assigns to value to `searchWord`
                             // NOTE: takes you to 404 page since there is no search data
-                            return setAppend(word.target.value);
+                            return setSearchWord(word.target.value);
                         }}
                     />
                 </label>
@@ -43,18 +51,21 @@ const SearchFilter: react.FC = () => {
             </form>
 
             <select onChange={handleRegionChange}>
-                <option value="Select Region">Select Region</option>
+                <option value="all">Select Region</option>
                 {searchRegions.map((regionSelect) => {
                     return <option key={regionSelect.label}>{regionSelect.value}</option>;
                 })}
             </select>
 
             <select onChange={handleTagChange}>
-                <option value="Select Tag">Select Tag</option>
+                <option value="all">Select Tag</option>
                 {searchTags.map((tagSelect) => {
                     return <option key={tagSelect.label}>{tagSelect.value}</option>;
                 })}
             </select>
+            <p>{searchParameters.regionParam}</p>
+            <p>{searchParameters.tagParam}</p>
+            <p>{searchParameters.searchWordParam}</p>
         </div>
     );
 };
