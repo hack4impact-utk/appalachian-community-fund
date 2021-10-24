@@ -1,9 +1,9 @@
 /* eslint-disable func-style */
 import React, { useState } from 'react';
-import Head from 'next/Head'
+import Head from 'next/Head';
 import { useRouter } from 'next/router';
 import styles from '../styles/Home.module.css';
-import InfoSearch from '../components/InfoSearch';
+import SearchFilter from '../components/SearchFilter';
 
 const Search: React.FC = () => {
     // React hook UseState
@@ -22,21 +22,7 @@ const Search: React.FC = () => {
             </Head>
             <main className={styles.main}>
                 <h1>Search Page</h1>
-                <InfoSearch></InfoSearch>
-                <form>
-                    <label>
-                        Search
-                        <input
-                            type="text"
-                            onChange={(word) => {
-                                // useState's `setAppend` assigns to value to `append`
-                                // NOTE: takes you to 404 page since there is no search data
-                                return setAppend(word.target.value);
-                            }}
-                        />
-                    </label>
-                    <button onClick={getSearch}>Submit</button>
-                </form>
+                <SearchFilter></SearchFilter>
             </main>
         </div>
     );
