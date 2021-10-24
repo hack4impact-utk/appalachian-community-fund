@@ -40,9 +40,9 @@ export const testMetaData: ArticleMetaData[] = [
 ];
 
 let searchTags = [
-    { label: 'tag1', value: 'tag1val' },
-    { label: 'tag2', value: 'tag2val' },
-    { label: 'tag3', value: 'tag3val' },
+    { label: 'Tag1', value: 'tag1val' },
+    { label: 'Tag2', value: 'tag2val' },
+    { label: 'Tag3', value: 'tag3val' },
 ];
 
 let searchRegions = [
