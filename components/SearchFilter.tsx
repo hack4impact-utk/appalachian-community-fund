@@ -1,7 +1,7 @@
 /* eslint-disable func-style */
 import react, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { ArticleTags } from '../utils/interfaces';
+import { searchRegions, searchTags } from '../utils/interfaces';
 
 const SearchFilter: react.FC = () => {
     // useState for tag selection
@@ -24,12 +24,6 @@ const SearchFilter: react.FC = () => {
         router.push(`search/${append}`);
     };
 
-    let pracTags = [
-        { label: 'tag1', value: 'tag1val' },
-        { label: 'tag2', value: 'tag2val' },
-        { label: 'tag3', value: 'tag3val' },
-    ];
-
 
     return (
         <div>
@@ -47,14 +41,17 @@ const SearchFilter: react.FC = () => {
                 </label>
                 <button onClick={getSearch}>Submit</button>
             </form>
-            <select name="Region">
-                <option>None</option>
-                <option>East</option>
-                <option>West</option>
+
+            <select onChange={handleRegionChange}>
+                <option value="Select Region">Select Region</option>
+                {searchRegions.map((regionSelect) => {
+                    return <option key={regionSelect.label}>{regionSelect.value}</option>;
+                })}
             </select>
+
             <select onChange={handleTagChange}>
                 <option value="Select Tag">Select Tag</option>
-                {pracTags.map((tagSelect) => {
+                {searchTags.map((tagSelect) => {
                     return <option key={tagSelect.label}>{tagSelect.value}</option>;
                 })}
             </select>

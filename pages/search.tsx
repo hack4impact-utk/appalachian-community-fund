@@ -6,15 +6,6 @@ import styles from '../styles/Home.module.css';
 import SearchFilter from '../components/SearchFilter';
 
 const Search: React.FC = () => {
-    // React hook UseState
-    const[ append, setAppend ] = useState('');
-
-    // Dynamically Route to new page on user search
-    const router = useRouter();
-    const getSearch = () => {
-        router.push(`search/${append}`);
-    };
-
     return (
         <div className={styles.Container}>
             <Head>
