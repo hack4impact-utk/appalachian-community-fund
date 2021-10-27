@@ -30,20 +30,13 @@
 
 .select {
   -webkit-appearance:none;
+  appearance: none;
   height: 20px;
-  margin-top: 2px;
-  margin-right: 2px;
   border: 1px solid #AD020D;
   background-color: #AD020D;
+  margin-top: 2px;
+  margin-right: 2px;
+  padding: 0 2px 0 3px;
+  border-radius: 0;
   color: white;
-}
-
-
-/*Resize the wrap to see the search bar change!*/
-.wrap{
-  width: 30%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
