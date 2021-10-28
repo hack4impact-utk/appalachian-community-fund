@@ -1,3 +1,10 @@
+export enum ArticleTags {
+    Tag1,
+    Tag2,
+    Tag3
+
+}
+
 export interface ArticleMetaData {
     id: number,
     articleName: string,
@@ -7,11 +14,6 @@ export interface ArticleMetaData {
     articleAddress?: string
 }
 
-export enum ArticleTags {
-    Tag1,
-    Tag2,
-    Tag3
-}
 
 export const testMetaData: ArticleMetaData[] = [
     { id: 1, articleName: "My article 1", articleDescription: "Some cool article", articleDate: new Date(), articleTags: [ArticleTags.Tag1] },
@@ -36,3 +38,20 @@ export const testMetaData: ArticleMetaData[] = [
     { id: 20, articleName: "My article 20", articleDescription: "Some more Data", articleDate: new Date(), articleTags: [ArticleTags.Tag2] },
     { id: 21, articleName: "My article 21", articleDescription: "Some Data", articleDate: new Date(), articleTags: [ArticleTags.Tag3, ArticleTags.Tag2] },
 ];
+
+let searchTags = [
+    { label: 'Tag1', value: 'tag1val' },
+    { label: 'Tag2', value: 'tag2val' },
+    { label: 'Tag3', value: 'tag3val' },
+];
+
+let searchRegions = [
+    { label: 'region1', value: 'region1val' },
+    { label: 'region2', value: 'region2val' },
+    { label: 'region3', value: 'region3val' },
+];
+
+export{
+    searchRegions,
+    searchTags,
+};
