@@ -1,7 +1,6 @@
 /* eslint-disable func-style */
-import React, { useState } from 'react';
-import Head from 'next/Head'
-import { useRouter } from 'next/router';
+import React from 'react';
+import Head from 'next/Head';
 import styles from '../styles/Home.module.css';
 import InfoSearch from '../components/InfoSearch';
 import InfiniteScroll from 'react-infinite-scroll-component';
