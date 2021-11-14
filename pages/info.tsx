@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Head from 'next/Head'
 import { useRouter } from 'next/router';
 import styles from '../styles/Home.module.scss';
+import Dropdown from '../components/Dropdown.tsx';
 
 const DBSearch: React.FC = () => {
     // React hook UseState
@@ -36,6 +37,8 @@ const DBSearch: React.FC = () => {
                     <button onClick={getSearch}>Submit</button>
                 </form>
             </main>
+            <h1>TEST</h1>
+            <Dropdown />
         </div>
     );
 };
