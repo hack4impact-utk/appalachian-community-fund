@@ -1,6 +1,6 @@
 import React from 'react';
 import Head from 'next/Head'
-import styles from '../styles/Home.module.css';
+import styles from '../styles/Home.module.scss';
 
 const Home: React.FC = () => {
     return (    
@@ -11,6 +11,7 @@ const Home: React.FC = () => {
 
             <main className={styles.main}>
                 <h1>Landing Page</h1>
+                <h2>Sub-Headline</h2>
             </main>
         </div>
     );

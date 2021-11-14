@@ -1,7 +1,7 @@
 import React, { useState, createContext, useEffect } from 'react';
 import axios from 'axios';
 import Head from 'next/Head';
-import styles from '../styles/Home.module.css';
+import styles from '../styles/Home.module.scss';
 import SearchFilter from '../components/SearchFilter';
 import { searchFilterStruct, searchContextStruct, tagStruct, categoryStruct } from '../utils/interfaces';
 

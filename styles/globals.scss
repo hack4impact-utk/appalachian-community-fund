@@ -1,9 +1,14 @@
+@use 'variables' as vars;
+
+* {
+  box-sizing: border-box;
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: vars.$font-primary;
 }
 
 a {
@@ -11,8 +16,12 @@ a {
   text-decoration: none;
 }
 
-* {
-  box-sizing: border-box;
+h1, h3, h4, h5, h6, p, span, label, button, a, input, textarea, select {
+  font-family: vars.$font-primary;
+}
+
+h2 {
+  font-family: vars.$font-secondary;
 }
 
 /* Basic css for nav bar */

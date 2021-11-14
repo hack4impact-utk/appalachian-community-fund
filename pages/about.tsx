@@ -1,6 +1,6 @@
 import React from 'react';
 import Head from 'next/Head'
-import styles from '../styles/Home.module.css';
+import styles from '../styles/Home.module.scss';
 
 const About: React.FC = () => {
     return (    
