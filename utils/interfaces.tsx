@@ -23,7 +23,25 @@ export interface searchFilterStruct {
 
 export interface searchContextStruct {
     currentSearchFilters: searchFilterStruct,
-    UpdateCurrentFilters: (newFilters: searchFilterStruct) => void
+    UpdateCurrentFilters: (newFilters: searchFilterStruct) => void,
+    allTags: tagStruct[],
+    allCategories: categoryStruct[]
+}
+
+export interface tagStruct {
+    count: number,
+    description: string,
+    id: number,
+    name: string,
+    slug: string
+}
+
+export interface categoryStruct {
+    count: number,
+    description: string,
+    id: number,
+    name: string,
+    slug: string
 }
 
 export const testMetaData: ArticleMetaData[] = [
