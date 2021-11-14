@@ -2,7 +2,7 @@
 import react, { useState, useContext } from 'react';
 import { useRouter } from 'next/router';
 import { searchRegions, searchTags } from '../utils/interfaces';
-import styles from './SearchFilter.module.css';
+import styles from './SearchFilter.module.scss';
 import { searchFilterStruct } from '../utils/interfaces';
 import { SearchContext } from '../pages/search';
 
