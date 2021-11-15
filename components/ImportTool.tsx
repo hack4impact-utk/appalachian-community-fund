@@ -3,17 +3,18 @@
 import React from 'react';
 import styles from '../styles/Home.module.css';
 import ReactFileReader from 'react-file-reader';
+import Papa from 'papaparse';
 
 
 const ImportTool: React.FC = () => {
-    // Handle user given file 
+    // Handle user given file
     let handleFile = (files) => {
-        // FileReader comes from HTML's built api
-        let reader = new FileReader();
-        reader.onload = function(e) {
-            console.log(reader.result);
-        };
-        reader.readAsText(files[0]);
+        // Papa.parse uses HTML's built in FileReader. The results are gotten by a callback function
+        Papa.parse(files[0], {
+            complete: function(result) {
+                console.log(result);
+            }
+        });
     };
 
     return (
