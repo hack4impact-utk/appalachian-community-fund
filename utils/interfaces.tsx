@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from "react";
+
 export enum ArticleTags {
     Tag1,
     Tag2,
@@ -25,7 +27,11 @@ export interface searchContextStruct {
     currentSearchFilters: searchFilterStruct,
     UpdateCurrentFilters: (newFilters: searchFilterStruct) => void,
     allTags: tagStruct[],
-    allCategories: categoryStruct[]
+    allCategories: categoryStruct[],
+    selectedTags: tagStruct[],
+    selectedCategories: categoryStruct[],
+    setSelectedTags: Dispatch<SetStateAction<tagStruct[]>>,
+    setSelectedCategories: Dispatch<SetStateAction<categoryStruct[]>>
 }
 
 export interface tagStruct {
