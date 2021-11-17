@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from "react";
+
 export enum ArticleTags {
     Tag1,
     Tag2,
@@ -14,6 +16,39 @@ export interface ArticleMetaData {
     articleAddress?: string
 }
 
+export interface searchFilterStruct {
+    tagParam: string,
+    regionParam: string,
+    searchWordParam: string,
+    dateParam: Date
+}
+
+export interface searchContextStruct {
+    currentSearchFilters: searchFilterStruct,
+    UpdateCurrentFilters: (newFilters: searchFilterStruct) => void,
+    allTags: tagStruct[],
+    allCategories: categoryStruct[],
+    selectedTags: tagStruct[],
+    selectedCategories: categoryStruct[],
+    setSelectedTags: Dispatch<SetStateAction<tagStruct[]>>,
+    setSelectedCategories: Dispatch<SetStateAction<categoryStruct[]>>
+}
+
+export interface tagStruct {
+    count: number,
+    description: string,
+    id: number,
+    name: string,
+    slug: string
+}
+
+export interface categoryStruct {
+    count: number,
+    description: string,
+    id: number,
+    name: string,
+    slug: string
+}
 
 export const testMetaData: ArticleMetaData[] = [
     { id: 1, articleName: "My article 1", articleDescription: "Some cool article", articleDate: new Date(), articleTags: [ArticleTags.Tag1] },
