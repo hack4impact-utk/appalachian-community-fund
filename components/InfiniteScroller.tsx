@@ -2,7 +2,6 @@ import react, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import SearchItem from './SearchItem';
-import InfiniteLoader from 'react-window-infinite-loader';
 import { VariableSizeList } from "react-window";
 import { testMetaData } from '../utils/interfaces';
 
