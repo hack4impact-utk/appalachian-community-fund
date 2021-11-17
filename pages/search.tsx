@@ -66,6 +66,19 @@ const Search: React.FC = () => {
                             <p>Category: {currentSearchFilters.regionParam}</p>
                         </div>
                     }
+                    <InfiniteScroll
+                      dataLength={state.items.length}
+                      next={getSearch}
+                      hasMore={true}
+                      loader={<h4>Loading...</h4>}
+                      endMessage={
+                          <p style={{ textAlign: 'center' }}>
+                          <b>That's everything!</b>
+                          </p>
+                      }
+                     >
+                    {state.items}
+                  </InfiniteScroll>
                 </main>
             </div>
         </SearchContext.Provider>
