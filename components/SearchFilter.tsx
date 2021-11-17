@@ -5,6 +5,8 @@ import { searchRegions, searchTags } from '../utils/interfaces';
 import styles from './SearchFilter.module.scss';
 import { searchFilterStruct } from '../utils/interfaces';
 import { SearchContext } from '../pages/search';
+import TagDropdown from './TagDropdown';
+import CategoryDropdown from './CategoryDropdown';
 
 const SearchFilter: react.FC = () => {
 
@@ -43,7 +45,18 @@ const SearchFilter: react.FC = () => {
 
         // // NOTE: needs proper return;
         // return searchParameters;
-        context.UpdateCurrentFilters(searchParameters);
+
+        const tagIDString = context.selectedTags.map(x => x.id);
+        const categoryIDString = context.selectedCategories.map(x => x.id);
+
+        const searchParams: searchFilterStruct = {
+            tagParam: tagIDString.join(),
+            regionParam: categoryIDString.join(),
+            searchWordParam: searchWord,
+            dateParam: new Date()
+        }
+
+        context.UpdateCurrentFilters(searchParams);
     };
 
     return (
@@ -61,19 +74,9 @@ const SearchFilter: react.FC = () => {
                 <button className={styles.searchButton} onClick={getSearch}></button>
             </div>
 
-            <select className={styles.select} onChange={handleRegionChange}>
-                <option value="all">Select Region</option>
-                {searchRegions.map((regionSelect) => {
-                    return <option key={regionSelect.label}>{regionSelect.value}</option>;
-                })}
-            </select>
+            <CategoryDropdown />
 
-            <select className={styles.select} onChange={handleTagChange}>
-                <option value="all">Select Tag</option>
-                {searchTags.map((tagSelect) => {
-                    return <option key={tagSelect.label}>{tagSelect.value}</option>;
-                })}
-            </select>
+            <TagDropdown />
         </div>
     );
 };

@@ -12,6 +12,8 @@ const Search: React.FC = () => {
     const [currentSearchFilters, setCurrentSearchFilters] = useState<searchFilterStruct | null>(null);
     const [allTags, setAllTags] = useState<tagStruct[]>([]);
     const [allCategories, setAllCategories] = useState<categoryStruct[]>([]);
+    const [selectedTags, setSelectedTags] = useState<tagStruct[]>([]);
+    const [selectedCategories, setSelectedCategories] = useState<categoryStruct[]>([]);
 
     const UpdateCurrentFilters = async (newFilters: searchFilterStruct) => {
         setCurrentSearchFilters(newFilters);
@@ -30,6 +32,7 @@ const Search: React.FC = () => {
     const GetInitialData = async () => {
         const [tags, categories] = await Promise.all([GetTags(), GetCategories()]);
         setAllTags(tags);
+        console.log(tags);
         setAllCategories(categories);
     }
 
@@ -38,7 +41,16 @@ const Search: React.FC = () => {
     }, []);
 
     return (
-        <SearchContext.Provider value={{currentSearchFilters, UpdateCurrentFilters, allTags, allCategories}}>
+        <SearchContext.Provider value={{
+            currentSearchFilters, 
+            UpdateCurrentFilters, 
+            allTags, 
+            allCategories, 
+            selectedTags, 
+            selectedCategories,
+            setSelectedTags,
+            setSelectedCategories
+        }}>
             <div className={styles.Container}>
                 <Head>
                     <title>Search</title>
