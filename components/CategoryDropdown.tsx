@@ -47,19 +47,20 @@ const CategoryDropdown: React.FC = () => {
 	};
 		
 	return (
-		<div>
-			<FormControl sx={{ m: 1, width: 300 }}>
-				<InputLabel id="demo-multiple-chip-label">Region</InputLabel>
+		<React.Fragment>
+			<FormControl sx={{ flex: 1, mr: 1 }} size="small">
+				<InputLabel id="demo-multiple-chip-label" className="applyFont">Region</InputLabel>
 				<Select
 					id="tag-dropdown"
 					multiple
 					value={context.selectedCategories}
 					onChange={handleChange}
 					input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+					className="applyFont"
 					renderValue={(select) => (
 						<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
 							{select.map((value) => (
-								<Chip key={value.id} label={value.name} />
+								<Chip key={value.id} className="applyFont" label={value.name} />
 							))}
 						</Box>
 					)}
@@ -75,7 +76,7 @@ const CategoryDropdown: React.FC = () => {
 					))}
 				</Select>
 			</FormControl>
-		</div>
+		</React.Fragment>
 	);
 };
 					

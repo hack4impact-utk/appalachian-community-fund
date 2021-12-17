@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import axios from 'axios';
-import Head from 'next/head'
+import Head from 'next/Head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.scss'
 

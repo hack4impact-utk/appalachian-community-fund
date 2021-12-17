@@ -5,6 +5,7 @@ import styles from '../styles/Home.module.scss';
 import SearchFilter from '../components/SearchFilter';
 import InfiniteScroller from '../components/InfiniteScroller';
 import { searchFilterStruct, searchContextStruct, tagStruct, categoryStruct } from '../utils/interfaces';
+import { WP_Post } from '../utils/wordpressInterfaces';
 
 const SearchContext = createContext<searchContextStruct | null>(null);
 
@@ -15,10 +16,19 @@ const Search: React.FC = () => {
     const [allCategories, setAllCategories] = useState<categoryStruct[]>([]);
     const [selectedTags, setSelectedTags] = useState<tagStruct[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<categoryStruct[]>([]);
+    const [filteredPosts, setFilteredPosts] = useState<WP_Post[]>([]);
 
     const UpdateCurrentFilters = async (newFilters: searchFilterStruct) => {
         setCurrentSearchFilters(newFilters);
-        const data = await axios.get('/wpapi/?rest_route=/wp/v2/posts&tags=4');
+
+        //Here we will build our search query
+        let filters = '';
+        if (newFilters.tagParam) filters += `&tags=${newFilters.tagParam}`;
+        if (newFilters.regionParam) filters += `&categories=${newFilters.regionParam}`;
+        console.log(filters);
+
+        const data: WP_Post[] = (await axios.get(`/wpapi/?rest_route=/wp/v2/posts${filters}`)).data;
+        setFilteredPosts(data);
         console.log(data);
     }
 
@@ -50,7 +60,8 @@ const Search: React.FC = () => {
             selectedTags, 
             selectedCategories,
             setSelectedTags,
-            setSelectedCategories
+            setSelectedCategories,
+            filteredPosts
         }}>
             <div className={styles.Container}>
                 <Head>
@@ -59,14 +70,6 @@ const Search: React.FC = () => {
                 <main className={styles.main}>
                     <h1>Search Page</h1>
                     <SearchFilter />
-                    <h1>Current Filters</h1>
-                    {!currentSearchFilters ? <p>None</p> :
-                        <div>
-                            <p>Word: {currentSearchFilters.searchWordParam}</p>
-                            <p>Tag: {currentSearchFilters.tagParam}</p>
-                            <p>Category: {currentSearchFilters.regionParam}</p>
-                        </div>
-                    }
                     <InfiniteScroller />
                 </main>
             </div>

@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
+import { WP_Post } from "./wordpressInterfaces";
 
 export enum ArticleTags {
     Tag1,
@@ -31,7 +32,8 @@ export interface searchContextStruct {
     selectedTags: tagStruct[],
     selectedCategories: categoryStruct[],
     setSelectedTags: Dispatch<SetStateAction<tagStruct[]>>,
-    setSelectedCategories: Dispatch<SetStateAction<categoryStruct[]>>
+    setSelectedCategories: Dispatch<SetStateAction<categoryStruct[]>>,
+    filteredPosts: WP_Post[]
 }
 
 export interface tagStruct {

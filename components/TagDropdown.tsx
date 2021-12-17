@@ -7,6 +7,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
+import styles from './SearchFilter.module.scss';
 
 const TagDropdown: React.FC = () => {
 
@@ -47,11 +48,12 @@ const TagDropdown: React.FC = () => {
 	};
 		
 	return (
-		<div>
-			<FormControl sx={{ m: 1, width: 300 }}>
-				<InputLabel id="demo-multiple-chip-label">Tags</InputLabel>
+		<React.Fragment>
+			<FormControl sx={{ flex: 1, mr: 1 }} size="small">
+				<InputLabel id="demo-multiple-chip-label" className="applyFont">Tags</InputLabel>
 				<Select
 					id="tag-dropdown"
+					className="applyFont"
 					multiple
 					value={context.selectedTags}
 					onChange={handleChange}
@@ -59,7 +61,7 @@ const TagDropdown: React.FC = () => {
 					renderValue={(select) => (
 						<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
 							{select.map((value) => (
-								<Chip key={value.id} label={value.name} />
+								<Chip key={value.id} className="applyFont" label={value.name} />
 							))}
 						</Box>
 					)}
@@ -75,7 +77,7 @@ const TagDropdown: React.FC = () => {
 					))}
 				</Select>
 			</FormControl>
-		</div>
+		</React.Fragment>
 	);
 };
 					

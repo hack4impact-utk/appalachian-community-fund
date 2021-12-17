@@ -1,6 +1,8 @@
 /* eslint-disable func-style */
 import react, { useState, useContext } from 'react';
 import { useRouter } from 'next/router';
+import { Button, IconButton, TextField, Paper, InputBase, Divider } from '@mui/material';
+import { Search } from '@mui/icons-material';
 import { searchRegions, searchTags } from '../utils/interfaces';
 import styles from './SearchFilter.module.scss';
 import { searchFilterStruct } from '../utils/interfaces';
@@ -60,9 +62,9 @@ const SearchFilter: react.FC = () => {
     };
 
     return (
-        <div>
-            <div className={styles.search}>
-                <input
+        <div style={{ width: '100vw' }}>
+            {/* <div className={styles.search}>
+                <TextField
                     type="text"
                     className={styles.searchTerm}
                     onChange={(word) => {
@@ -71,12 +73,30 @@ const SearchFilter: react.FC = () => {
                         return setSearchWord(word.target.value);
                     }}
                 />
-                <button className={styles.searchButton} onClick={getSearch}></button>
+                <IconButton edge={false} onClick={getSearch}><Search /></IconButton>
+            </div> */}
+
+            <div style={{ width: '90%', margin: 'auto', display: 'block' }}>
+                <Paper component="form" sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: '100%' }}>
+                    <InputBase 
+                        value={searchWord}
+                        onChange={(e) => setSearchWord(e.target.value)}
+                        placeholder="Search by topic..."
+                        sx={{ ml: 1, flex: 1 }}
+                        className="applyFont"
+                    />
+                    <Divider orientation="vertical" sx={{ height: 28 }} />
+                    <IconButton onClick={getSearch}>
+                        <Search />
+                    </IconButton>
+                </Paper>
+                <div style={{ display: 'flex', marginTop: 10 }}>
+                    <CategoryDropdown />
+                    <TagDropdown />
+                    <div style={{ flex: 2 }} />
+                </div>
+                
             </div>
-
-            <CategoryDropdown />
-
-            <TagDropdown />
         </div>
     );
 };
