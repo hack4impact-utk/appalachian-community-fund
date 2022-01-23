@@ -71,6 +71,7 @@ const TagDropdown: React.FC = () => {
 						<MenuItem
 							key={x.id}
 							value={x.id}
+							className="applyFont"
 						>
 							{x.name}
 						</MenuItem>

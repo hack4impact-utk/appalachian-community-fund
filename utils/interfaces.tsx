@@ -33,7 +33,7 @@ export interface searchContextStruct {
     selectedCategories: categoryStruct[],
     setSelectedTags: Dispatch<SetStateAction<tagStruct[]>>,
     setSelectedCategories: Dispatch<SetStateAction<categoryStruct[]>>,
-    filteredPosts: WP_Post[]
+    filteredPosts: WP_Post[] //WP_Post[]
 }
 
 export interface tagStruct {
@@ -92,3 +92,12 @@ export{
     searchRegions,
     searchTags,
 };
+
+export interface dummyPostStruct {
+    title: string,
+    articleDate: Date,
+    link?: string,
+    articleDescription: string,
+    tags: number[],
+    categories: number[]
+}

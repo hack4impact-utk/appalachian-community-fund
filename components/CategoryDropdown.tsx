@@ -49,7 +49,7 @@ const CategoryDropdown: React.FC = () => {
 	return (
 		<React.Fragment>
 			<FormControl sx={{ flex: 1, mr: 1 }} size="small">
-				<InputLabel id="demo-multiple-chip-label" className="applyFont">Region</InputLabel>
+				<InputLabel id="demo-multiple-chip-label" className="applyFont">Category</InputLabel>
 				<Select
 					id="tag-dropdown"
 					multiple
@@ -70,6 +70,7 @@ const CategoryDropdown: React.FC = () => {
 						<MenuItem
 							key={x.id}
 							value={x.id}
+							className="applyFont"
 						>
 							{x.name}
 						</MenuItem>
