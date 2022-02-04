@@ -36,6 +36,10 @@ export interface searchContextStruct {
     filteredPosts: WP_Post[] //WP_Post[]
 }
 
+export interface adminContextStruct {
+    fillerProperty: string;
+}
+
 export interface tagStruct {
     count: number,
     description: string,
