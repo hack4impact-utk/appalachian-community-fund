@@ -1,4 +1,5 @@
-import react, { useState, useEffect } from 'react';
+import react, { useState, useEffect, useContext } from 'react';
+import { SearchContext } from '../pages/search';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import SearchItem from './SearchItem';
@@ -8,38 +9,33 @@ import { testMetaData } from '../utils/interfaces';
 
 const InfiniteScroller: react.FC = () => {
     
-    // React hook UseState
-    const[ postData, setPostData ] = useState([]);
+    const context = useContext(SearchContext);
+    if (!context) return null;
+
+    // This is used to have the posts locally, and will force a rerender when it changes
+    // NOTE: This may be a bad way to do this, especially if this state is just a copy of context.filteredPosts,
+    // because that would mean the client has two copies of this data
+    const[ postData, setPostData ] = useState(context.filteredPosts);
+
+    useEffect(() => {
+        setPostData(context.filteredPosts);
+    }, [context.filteredPosts]);
 
     const Item = ({ index, style }) => {
-        let content: String;
-        content = postData[index].title.rendered;
-        return <SearchItem index={index} name={content}/>;
+        return <SearchItem style={style} itemData={postData[index]} />;
     };
 
     const GetItemSize = (index: Number) => {
-        return 21.5;
+        return 150;
     }
-
-    useEffect(() => {
-        const AccessWordPress = async () => {
-			//This grabs all the posts from the wordpress site
-			const data = (await axios.get('/wpapi/?rest_route=/wp/v2/posts')).data;
-            console.log(data);
-			setPostData(data);
-		}
-
-		AccessWordPress();
-    }, []);
 
     return(
         <VariableSizeList
             className="List"
             itemCount={postData.length}
             itemSize={GetItemSize}
-            height={150}
-            width={300}
-            overscanCount={3}
+            height={400}
+            width={800}
         >
             {Item}
         </VariableSizeList>

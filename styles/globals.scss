@@ -26,16 +26,29 @@ h2 {
 
 /* Basic css for nav bar */
 nav {
-  margin: 10px auto 80px;
-  padding: 10px 0;
+  margin: auto;
+  padding: 20px 10px;
   display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
+  justify-content: center;
+  align-items: center;
   border-bottom: 1px solid #ddd;
+  border-top: 15px solid vars.$acf-cyan;
+  background-color: vars.$acf-white;
+  font-weight: 600;
+  font-size: 20px;
+  position: relative;
+
+  img {
+    position: absolute;
+    left: 0;
+    margin: 10px;
+    width: 200px;
+  }
 }
 nav a {
-  margin-left: 12px;
+  margin-left: 36px;
 }
-nav .logo {
-  margin-right: auto;
+
+.applyFont {
+  font-family: vars.$font-primary;
 }
