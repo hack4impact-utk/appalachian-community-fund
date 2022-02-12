@@ -5,7 +5,17 @@ export enum ArticleTags {
     Tag1,
     Tag2,
     Tag3
+}
 
+export enum ArticleTypes {
+    WordpressPost,
+    Link,
+    File
+}
+
+//This is used by all posts that come from the database
+export interface articleStruct extends WP_Post {
+    articleType: ArticleTypes
 }
 
 export interface ArticleMetaData {

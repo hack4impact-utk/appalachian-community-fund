@@ -26,7 +26,7 @@ const InfiniteScroller: react.FC = () => {
     };
 
     const GetItemSize = (index: Number) => {
-        return 150;
+        return 160;
     }
 
     return(
