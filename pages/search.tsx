@@ -4,7 +4,7 @@ import Head from 'next/Head';
 import styles from '../styles/Home.module.scss';
 import SearchFilter from '../components/SearchFilter';
 import InfiniteScroller from '../components/InfiniteScroller';
-import { searchFilterStruct, searchContextStruct, tagStruct, categoryStruct, dummyPostStruct } from '../utils/interfaces';
+import { searchFilterStruct, searchContextStruct, tagStruct, categoryStruct, dummyPostStruct, articleStruct, ArticleTypes } from '../utils/interfaces';
 import { WP_Post } from '../utils/wordpressInterfaces';
 
 const SearchContext = createContext<searchContextStruct | null>(null);
@@ -16,7 +16,7 @@ const Search: React.FC = () => {
     const [allCategories, setAllCategories] = useState<categoryStruct[]>([]);
     const [selectedTags, setSelectedTags] = useState<tagStruct[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<categoryStruct[]>([]);
-    const [filteredPosts, setFilteredPosts] = useState<WP_Post[]>([]);
+    const [filteredPosts, setFilteredPosts] = useState<articleStruct[]>([]);
 
     //These are fake posts to use for testing in the event the Wordpress route stops working
     const DummyPosts: dummyPostStruct[] = [
@@ -40,7 +40,9 @@ const Search: React.FC = () => {
         if (newFilters.regionParam) filters += `&categories=${newFilters.regionParam}`;
         console.log(filters);
 
-        const data: WP_Post[] = (await axios.get(`/wpapi/?rest_route=/wp/v2/posts${filters}`)).data;
+        const data: articleStruct[] = (await axios.get(`/wpapi/?rest_route=/wp/v2/posts${filters}`)).data;
+        //TODO: Find a more efficient way to do this, such as on import rather than iteration through it all
+        data.forEach(x => { x.articleType = ArticleTypes.WordpressPost; })
 
         setFilteredPosts(data);
         console.log(data);

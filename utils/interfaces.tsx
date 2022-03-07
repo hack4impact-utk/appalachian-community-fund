@@ -15,7 +15,9 @@ export enum ArticleTypes {
 
 //This is used by all posts that come from the database
 export interface articleStruct extends WP_Post {
-    articleType: ArticleTypes
+    articleType: ArticleTypes,
+    externalLink?: string,
+    downloadLink?: string
 }
 
 export interface ArticleMetaData {
@@ -43,7 +45,7 @@ export interface searchContextStruct {
     selectedCategories: categoryStruct[],
     setSelectedTags: Dispatch<SetStateAction<tagStruct[]>>,
     setSelectedCategories: Dispatch<SetStateAction<categoryStruct[]>>,
-    filteredPosts: WP_Post[] //WP_Post[]
+    filteredPosts: articleStruct[] //WP_Post[]
 }
 
 export interface adminContextStruct {
