@@ -1,5 +1,6 @@
 /* Style the links inside the navigation bar */
 @import url(https://fonts.googleapis.com/css?family=Open+Sans);
+@import '../styles/variables';
 
 .search {
   width: 100%;
@@ -31,12 +32,21 @@
 .select {
   -webkit-appearance:none;
   appearance: none;
-  height: 20px;
+  height: 50px;
   border: 1px solid #AD020D;
-  background-color: #AD020D;
+  background-color: #dfc6c8;
   margin-top: 2px;
   margin-right: 2px;
   padding: 0 2px 0 3px;
   border-radius: 0;
   color: white;
+}
+
+.searchItemHeader {
+  color: $acf-red-dark;
+  margin-bottom: 0;
+}
+
+.searchItemContent {
+  color: $acf-black
 }

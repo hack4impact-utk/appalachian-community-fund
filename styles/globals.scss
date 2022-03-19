@@ -1,0 +1,54 @@
+@use 'variables' as vars;
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: vars.$font-primary;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h1, h3, h4, h5, h6, p, span, label, button, a, input, textarea, select {
+  font-family: vars.$font-primary;
+}
+
+h2 {
+  font-family: vars.$font-secondary;
+}
+
+/* Basic css for nav bar */
+nav {
+  margin: auto;
+  padding: 20px 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  border-top: 15px solid vars.$acf-cyan;
+  background-color: vars.$acf-white;
+  font-weight: 600;
+  font-size: 20px;
+  position: relative;
+
+  img {
+    position: absolute;
+    left: 0;
+    margin: 10px;
+    width: 200px;
+  }
+}
+nav a {
+  margin-left: 36px;
+}
+
+.applyFont {
+  font-family: vars.$font-primary;
+}

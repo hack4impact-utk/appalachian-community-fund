@@ -1,74 +1,59 @@
 /* eslint-disable func-style */
-import react, { useState } from 'react';
-import { useRouter } from 'next/router';
-import { searchRegions, searchTags } from '../utils/interfaces';
-import styles from './SearchFilter.module.css';
+import react, { useState, useContext } from 'react';
+import { IconButton, Paper, InputBase, Divider } from '@mui/material';
+import { Search } from '@mui/icons-material';
+import { searchFilterStruct } from '../utils/interfaces';
+import { SearchContext } from '../pages/search';
+import TagDropdown from './TagDropdown';
+import CategoryDropdown from './CategoryDropdown';
 
 const SearchFilter: react.FC = () => {
-    // useState for tag selection
-    const[ tag, setTag ] = useState('all');
-    let handleTagChange = (selection) => {
-        setTag(selection.target.value);
-    };
 
-    // useState for Region selection
-    const[ region, setRegion ] = useState('all');
-    let handleRegionChange = (selection) => {
-        setRegion(selection.target.value);
-    };
+    const context = useContext(SearchContext);
+    if (!context) return null;
 
     // useState for Key word search
     const[ searchWord, setSearchWord ] = useState('');
 
-    // Object to return to database
-    let searchParameters = {
-        // Values are updated on form change
-        tagParam: tag,
-        regionParam: region,
-        searchWordParam: searchWord,
-        dateParam: ''
-    };
-
     // Dynamically Route to new page based on user criteria
-    const router = useRouter();
     const getSearch = () => {
-        // Actions to take when form is submitted
-        router.push(`search/${region}/${tag}/${searchWord}`);
+        //We need to combine all the ID's into a string so we can use it for filtering
+        const tagIDString = context.selectedTags.map(x => x.id);
+        const categoryIDString = context.selectedCategories.map(x => x.id);
 
-        // NOTE: needs proper return;
-        return searchParameters;
+        const searchParams: searchFilterStruct = {
+            tagParam: tagIDString.join(),
+            regionParam: categoryIDString.join(),
+            searchWordParam: searchWord,
+            dateParam: new Date()
+        }
+
+        context.UpdateCurrentFilters(searchParams);
     };
 
     return (
-        <div>
-            <form >
-                <div className={styles.search}>
-                    <input
-                        type="text"
-                        className={styles.searchTerm}
-                        onChange={(word) => {
-                            // useState's `setsearchWord` assigns to value to `searchWord`
-                            // NOTE: takes you to 404 page since there is no search data
-                            return setSearchWord(word.target.value);
-                        }}
+        <div style={{ width: '100vw' }}>
+            <div style={{ width: '90%', margin: 'auto', display: 'block' }}>
+                <Paper component="form" sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: '100%' }}>
+                    <InputBase 
+                        value={searchWord}
+                        onChange={(e) => setSearchWord(e.target.value)}
+                        placeholder="Search by topic..."
+                        sx={{ ml: 1, flex: 1 }}
+                        className="applyFont"
                     />
-                    <button type="submit" className={styles.searchButton} onClick={getSearch}></button>
+                    <Divider orientation="vertical" sx={{ height: 28 }} />
+                    <IconButton onClick={getSearch}>
+                        <Search />
+                    </IconButton>
+                </Paper>
+                <div style={{ display: 'flex', marginTop: 10 }}>
+                    <CategoryDropdown />
+                    <TagDropdown />
+                    <div style={{ flex: 2 }} />
                 </div>
-
-                <select className={styles.select} onChange={handleRegionChange}>
-                    <option value="all">Select Region</option>
-                    {searchRegions.map((regionSelect) => {
-                        return <option key={regionSelect.label}>{regionSelect.value}</option>;
-                    })}
-                </select>
-
-                <select className={styles.select} onChange={handleTagChange}>
-                    <option value="all">Select Tag</option>
-                    {searchTags.map((tagSelect) => {
-                        return <option key={tagSelect.label}>{tagSelect.value}</option>;
-                    })}
-                </select>
-            </form>
+                
+            </div>
         </div>
     );
 };

@@ -1,3 +1,6 @@
+import { Dispatch, SetStateAction } from "react";
+import { WP_Post } from "./wordpressInterfaces";
+
 export enum ArticleTags {
     Tag1,
     Tag2,
@@ -14,6 +17,44 @@ export interface ArticleMetaData {
     articleAddress?: string
 }
 
+export interface searchFilterStruct {
+    tagParam: string,
+    regionParam: string,
+    searchWordParam: string,
+    dateParam: Date
+}
+
+export interface searchContextStruct {
+    currentSearchFilters: searchFilterStruct,
+    UpdateCurrentFilters: (newFilters: searchFilterStruct) => void,
+    allTags: tagStruct[],
+    allCategories: categoryStruct[],
+    selectedTags: tagStruct[],
+    selectedCategories: categoryStruct[],
+    setSelectedTags: Dispatch<SetStateAction<tagStruct[]>>,
+    setSelectedCategories: Dispatch<SetStateAction<categoryStruct[]>>,
+    filteredPosts: WP_Post[] //WP_Post[]
+}
+
+export interface adminContextStruct {
+    fillerProperty: string;
+}
+
+export interface tagStruct {
+    count: number,
+    description: string,
+    id: number,
+    name: string,
+    slug: string
+}
+
+export interface categoryStruct {
+    count: number,
+    description: string,
+    id: number,
+    name: string,
+    slug: string
+}
 
 export const testMetaData: ArticleMetaData[] = [
     { id: 1, articleName: "My article 1", articleDescription: "Some cool article", articleDate: new Date(), articleTags: [ArticleTags.Tag1] },
@@ -55,3 +96,12 @@ export{
     searchRegions,
     searchTags,
 };
+
+export interface dummyPostStruct {
+    title: string,
+    articleDate: Date,
+    link?: string,
+    articleDescription: string,
+    tags: number[],
+    categories: number[]
+}
