@@ -6,6 +6,7 @@ import { searchFilterStruct } from '../utils/interfaces';
 import { SearchContext } from '../pages/search';
 import TagDropdown from './TagDropdown';
 import CategoryDropdown from './CategoryDropdown';
+import AddressSearchBar from './AddressSearchBar';
 
 const SearchFilter: react.FC = () => {
 
@@ -50,6 +51,7 @@ const SearchFilter: react.FC = () => {
                 <div style={{ display: 'flex', marginTop: 10 }}>
                     <CategoryDropdown />
                     <TagDropdown />
+                    <AddressSearchBar />
                     <div style={{ flex: 2 }} />
                 </div>
                 

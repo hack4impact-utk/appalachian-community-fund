@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
+import { AdminPages } from "../pages/admin";
 import { WP_Post } from "./wordpressInterfaces";
 
 export enum ArticleTags {
@@ -49,7 +50,8 @@ export interface searchContextStruct {
 }
 
 export interface adminContextStruct {
-    fillerProperty: string;
+    currentAdminPage: AdminPages;
+    SwitchAdminPage: (page: AdminPages) => void;
 }
 
 export interface tagStruct {

@@ -5,7 +5,7 @@ import styles from '../styles/Home.module.scss';
 import SearchFilter from '../components/SearchFilter';
 import InfiniteScroller from '../components/InfiniteScroller';
 import { searchFilterStruct, searchContextStruct, tagStruct, categoryStruct, dummyPostStruct, articleStruct, ArticleTypes } from '../utils/interfaces';
-import { WP_Post } from '../utils/wordpressInterfaces';
+import { WP_Media } from '../utils/wordpressInterfaces';
 
 const SearchContext = createContext<searchContextStruct | null>(null);
 
@@ -18,17 +18,10 @@ const Search: React.FC = () => {
     const [selectedCategories, setSelectedCategories] = useState<categoryStruct[]>([]);
     const [filteredPosts, setFilteredPosts] = useState<articleStruct[]>([]);
 
-    //These are fake posts to use for testing in the event the Wordpress route stops working
-    const DummyPosts: dummyPostStruct[] = [
-        { title: 'Hello, I am a post', articleDescription: 'Be sure to read me!', articleDate: new Date(), tags: [1], categories: [2] },
-        { title: 'Hello World!', articleDescription: 'My first article', articleDate: new Date(), tags: [1, 2], categories: [1] },
-        { title: 'My test post', articleDescription: 'Some generic information', articleDate: new Date(), tags: [2], categories: [2] },
-        { title: 'My test post 2', articleDescription: 'Read me pls', articleDate: new Date(), tags: [1], categories: [1] },
-        { title: 'Hello there!', articleDescription: 'I am a post!', articleDate: new Date(), tags: [1], categories: [2] },
-        { title: 'Test Post', articleDescription: 'For testing', articleDate: new Date(), tags: [1, 2], categories: [1, 2] },
-        { title: 'Another Test Post', articleDescription: 'Also for testing', articleDate: new Date(), tags: [1, 2], categories: [2] },
-        { title: 'Yet another Test Post', articleDescription: 'Again, also for testing', articleDate: new Date(), tags: [2], categories: [2] },
-    ]
+    useEffect(() => {
+        GetInitialData();
+        GetMedia();
+    }, []);
 
     const UpdateCurrentFilters = async (newFilters: searchFilterStruct) => {
         setCurrentSearchFilters(newFilters);
@@ -60,6 +53,13 @@ const Search: React.FC = () => {
         return (await axios.get('./api/getAddresses')).data;
     }
 
+    const GetMedia = async () => {
+        //TODO: This is incredibly inefficient, find a better way to do this, such as when each list item gets displayed
+        const media = (await axios.get('/wpapi/?rest_route=/wp/v2/media')).data as WP_Media[];
+        console.log(media);
+        return media;
+    }
+
     const GetInitialData = async () => {
         //All this data only ever needs to be loaded once
         const [tags, categories, addresses] = await Promise.all([GetTags(), GetCategories(), GetAddresses()]);
@@ -67,10 +67,6 @@ const Search: React.FC = () => {
         console.log(addresses);
         setAllCategories(categories);
     }
-
-    useEffect(() => {
-        GetInitialData();
-    }, []);
 
     return (
         <SearchContext.Provider value={{
