@@ -34,7 +34,7 @@ const InfiniteScroller: react.FC = () => {
             className="List"
             itemCount={postData.length}
             itemSize={GetItemSize}
-            height={400}
+            height={500}
             width={800}
         >
             {Item}

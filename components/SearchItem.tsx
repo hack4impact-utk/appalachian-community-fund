@@ -3,11 +3,11 @@ import { SearchContext } from '../pages/search';
 import moment from 'moment';
 import { WP_Post } from '../utils/wordpressInterfaces';
 import styles from './SearchFilter.module.scss';
-import { dummyPostStruct } from '../utils/interfaces';
+import { dummyPostStruct, articleStruct } from '../utils/interfaces';
 
 interface props {
-    itemData: WP_Post, //WP_Post
-    style: any
+    itemData: articleStruct, //WP_Post
+    style: React.CSSProperties
 }
 
 const SearchItem: react.FC<props> = ({ itemData, style }: props) => {
@@ -38,6 +38,12 @@ const SearchItem: react.FC<props> = ({ itemData, style }: props) => {
             }
         });
         setCategoryState(catTemp.join(', '));
+
+        if (itemData.featuredImageLink) {
+            const newStyle: React.CSSProperties = {...style, backgroundImage: itemData.featuredImageLink };
+            //newStyle.backgroundImage = itemData.featuredImageLink;
+            style = newStyle;
+        }
     }, []);
 
     const ConvertExcerpt = (textToFix: string): string => {

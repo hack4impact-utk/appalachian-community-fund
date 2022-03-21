@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { AdminPages } from "../pages/admin";
+import { AdminPages } from "../pages/_app";
 import { WP_Post } from "./wordpressInterfaces";
 
 export enum ArticleTags {
@@ -17,6 +17,7 @@ export enum ArticleTypes {
 //This is used by all posts that come from the database
 export interface articleStruct extends WP_Post {
     articleType: ArticleTypes,
+    featuredImageLink?: string,
     externalLink?: string,
     downloadLink?: string
 }
@@ -50,8 +51,7 @@ export interface searchContextStruct {
 }
 
 export interface adminContextStruct {
-    currentAdminPage: AdminPages;
-    SwitchAdminPage: (page: AdminPages) => void;
+    testString: string
 }
 
 export interface tagStruct {
