@@ -3,7 +3,7 @@
 import React from 'react';
 import ImportTool from '../components/ImportTool';
 import Head from 'next/Head';
-import styles from '../styles/Home.module.css';
+import styles from '../styles/Home.module.scss';
 
 
 const importPage: React.FC = () => {
