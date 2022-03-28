@@ -1,7 +1,7 @@
 /* eslint-disable func-style */
 // https://github.com/exceljs/exceljs
 import React from 'react';
-import styles from '../styles/Home.module.css';
+import styles from '../styles/Home.module.scss';
 import ReactFileReader from 'react-file-reader';
 import Papa from 'papaparse';
 
