@@ -3,11 +3,11 @@ import { SearchContext } from '../pages/search';
 import moment from 'moment';
 import { WP_Post } from '../utils/wordpressInterfaces';
 import styles from './SearchFilter.module.scss';
-import { dummyPostStruct } from '../utils/interfaces';
+import { dummyPostStruct, articleStruct } from '../utils/interfaces';
 
 interface props {
-    itemData: WP_Post, //WP_Post
-    style: any
+    itemData: articleStruct, //WP_Post
+    style: React.CSSProperties
 }
 
 const SearchItem: react.FC<props> = ({ itemData, style }: props) => {
@@ -38,16 +38,33 @@ const SearchItem: react.FC<props> = ({ itemData, style }: props) => {
             }
         });
         setCategoryState(catTemp.join(', '));
+
+        if (itemData.featuredImageLink) {
+            const newStyle: React.CSSProperties = {...style, backgroundImage: itemData.featuredImageLink };
+            //newStyle.backgroundImage = itemData.featuredImageLink;
+            style = newStyle;
+        }
     }, []);
+
+    const ConvertExcerpt = (textToFix: string): string => {
+        let newString = textToFix.replace(/[<][^>]+[>]/g,"");
+
+        if (newString.length > 150) {
+            newString = newString.slice(0, 150);
+            newString += "...";
+        }
+
+        return newString;
+    } 
 
     return (
         <div style={style}>
             <h2 className={styles.searchItemHeader}>{itemData.title.rendered}</h2>
             <h5 style={{ marginTop: 5, marginBottom: 5 }}>{moment(itemData.date).format('MM/DD/YYYY')}</h5>
-            <p className={styles.searchItemContent}>{itemData.excerpt.rendered.replace(/[<][^>]+[>]/g,"")}</p>
+            <p className={styles.searchItemContent}>{ConvertExcerpt(itemData.excerpt.rendered)}</p>
             <div style={{ display: 'inline' }}>
                 {tagState}
-                <a style={{ float: 'right' }} target="#" href={itemData.link}>LEARN MORE</a>
+                <a style={{ float: 'right', marginRight: 15 }} target="#" href={itemData.link}>LEARN MORE</a>
             </div>
         </div>
     );

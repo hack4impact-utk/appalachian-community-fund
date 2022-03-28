@@ -4,8 +4,8 @@ import Head from 'next/Head';
 import styles from '../styles/Home.module.scss';
 import SearchFilter from '../components/SearchFilter';
 import InfiniteScroller from '../components/InfiniteScroller';
-import { searchFilterStruct, searchContextStruct, tagStruct, categoryStruct, dummyPostStruct } from '../utils/interfaces';
-import { WP_Post } from '../utils/wordpressInterfaces';
+import { searchFilterStruct, searchContextStruct, tagStruct, categoryStruct, dummyPostStruct, articleStruct, ArticleTypes } from '../utils/interfaces';
+import { WP_Media } from '../utils/wordpressInterfaces';
 
 const SearchContext = createContext<searchContextStruct | null>(null);
 
@@ -16,31 +16,61 @@ const Search: React.FC = () => {
     const [allCategories, setAllCategories] = useState<categoryStruct[]>([]);
     const [selectedTags, setSelectedTags] = useState<tagStruct[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<categoryStruct[]>([]);
-    const [filteredPosts, setFilteredPosts] = useState<WP_Post[]>([]);
+    const [filteredPosts, setFilteredPosts] = useState<articleStruct[]>([]);
 
-    //These are fake posts to use for testing in the event the Wordpress route stops working
-    const DummyPosts: dummyPostStruct[] = [
-        { title: 'Hello, I am a post', articleDescription: 'Be sure to read me!', articleDate: new Date(), tags: [1], categories: [2] },
-        { title: 'Hello World!', articleDescription: 'My first article', articleDate: new Date(), tags: [1, 2], categories: [1] },
-        { title: 'My test post', articleDescription: 'Some generic information', articleDate: new Date(), tags: [2], categories: [2] },
-        { title: 'My test post 2', articleDescription: 'Read me pls', articleDate: new Date(), tags: [1], categories: [1] },
-        { title: 'Hello there!', articleDescription: 'I am a post!', articleDate: new Date(), tags: [1], categories: [2] },
-        { title: 'Test Post', articleDescription: 'For testing', articleDate: new Date(), tags: [1, 2], categories: [1, 2] },
-        { title: 'Another Test Post', articleDescription: 'Also for testing', articleDate: new Date(), tags: [1, 2], categories: [2] },
-        { title: 'Yet another Test Post', articleDescription: 'Again, also for testing', articleDate: new Date(), tags: [2], categories: [2] },
-    ]
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const [countPerPage, setCountPerPage] = useState<number>(10);
+    const [dataLoaded, setDataLoaded] = useState<boolean>(false); //Used to track when the initial load of the wordpress data has been done
 
-    const UpdateCurrentFilters = async (newFilters: searchFilterStruct) => {
-        setCurrentSearchFilters(newFilters);
+    useEffect(() => {
+        GetInitialData();
+    }, []);
+
+    useEffect(() => {
+        //This will refresh the data when the current page changes
+        //TODO: Add a debouncer to this or the inputs for the count so it doesn't make calls while typing
+        UpdateCurrentFilters();
+    }, [currentPage, countPerPage]);
+
+    const UpdateCurrentFilters = async (newFilters?: searchFilterStruct) => {
+        //If we call this with params passed, we update the params and grab new data.
+        //If we leave off the params, we simply regrab the data
+        if (!newFilters) {
+            newFilters = currentSearchFilters;
+        } else {
+            setCurrentSearchFilters(newFilters);
+        }
         console.log(newFilters);
 
+        if (!newFilters) return; //This is a safety on initial load in case the state value is also null
+        if (!dataLoaded) {
+            setDataLoaded(true);
+        }
+
         //Here we will build our search query
-        let filters = '';
+        let filters = `&page=${currentPage}&per_page=${countPerPage}`;
         if (newFilters.tagParam) filters += `&tags=${newFilters.tagParam}`;
         if (newFilters.regionParam) filters += `&categories=${newFilters.regionParam}`;
         console.log(filters);
 
-        const data: WP_Post[] = (await axios.get(`/wpapi/?rest_route=/wp/v2/posts${filters}`)).data;
+        const data: articleStruct[] = (await axios.get(`/wpapi/?rest_route=/wp/v2/posts${filters}`)).data;
+        const featuredMediaIds: number[] = [];
+
+        data.forEach(x => { 
+            x.articleType = ArticleTypes.WordpressPost; 
+            if (x.featured_media !== 0) {
+                featuredMediaIds.push(x.featured_media); 
+            }
+        });
+
+        //This grabs all the featured media photos to be displayed on each article
+        const media = await GetMedia(featuredMediaIds);
+        media.forEach(x => {
+            const index = data.findIndex(y => y.featured_media === x.id);
+            if (index !== undefined) {
+                data[index].featuredImageLink = x.source_url;
+            }
+        });
 
         setFilteredPosts(data);
         console.log(data);
@@ -58,6 +88,22 @@ const Search: React.FC = () => {
         return (await axios.get('./api/getAddresses')).data;
     }
 
+    const GetMedia = async (mediaIds: number[]) => {
+        const media = (await axios.get(`/wpapi/?rest_route=/wp/v2/media&include=${mediaIds.join()}`)).data as WP_Media[];
+        console.log(media);
+        return media;
+    }
+
+    const GoToNextPage = () => {
+        setCurrentPage(currentPage+1);
+    }
+
+    const GoToPrevPage = () => {
+        if (currentPage == 1) return;
+
+        setCurrentPage(currentPage-1);
+    }
+
     const GetInitialData = async () => {
         //All this data only ever needs to be loaded once
         const [tags, categories, addresses] = await Promise.all([GetTags(), GetCategories(), GetAddresses()]);
@@ -65,10 +111,6 @@ const Search: React.FC = () => {
         console.log(addresses);
         setAllCategories(categories);
     }
-
-    useEffect(() => {
-        GetInitialData();
-    }, []);
 
     return (
         <SearchContext.Provider value={{
@@ -90,6 +132,12 @@ const Search: React.FC = () => {
                     <h1>Search Page</h1>
                     <SearchFilter />
                     <InfiniteScroller />
+                    {dataLoaded && <div>
+                        <input value='Prev. Page' type="button" onClick={GoToPrevPage} />
+                        <input type="number" placeholder='Count per page' value={countPerPage} onChange={e => setCountPerPage(parseInt(e.target.value))} />
+                        <input value='Next Page' type="button" onClick={GoToNextPage} />
+                        <span>Page: {currentPage}</span>
+                    </div>}
                 </main>
             </div>
         </SearchContext.Provider>

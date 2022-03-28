@@ -1,11 +1,25 @@
 import { Dispatch, SetStateAction } from "react";
+import { AdminPages } from "../pages/_app";
 import { WP_Post } from "./wordpressInterfaces";
 
 export enum ArticleTags {
     Tag1,
     Tag2,
     Tag3
+}
 
+export enum ArticleTypes {
+    WordpressPost,
+    Link,
+    File
+}
+
+//This is used by all posts that come from the database
+export interface articleStruct extends WP_Post {
+    articleType: ArticleTypes,
+    featuredImageLink?: string,
+    externalLink?: string,
+    downloadLink?: string
 }
 
 export interface ArticleMetaData {
@@ -33,11 +47,11 @@ export interface searchContextStruct {
     selectedCategories: categoryStruct[],
     setSelectedTags: Dispatch<SetStateAction<tagStruct[]>>,
     setSelectedCategories: Dispatch<SetStateAction<categoryStruct[]>>,
-    filteredPosts: WP_Post[] //WP_Post[]
+    filteredPosts: articleStruct[] //WP_Post[]
 }
 
 export interface adminContextStruct {
-    fillerProperty: string;
+    testString: string
 }
 
 export interface tagStruct {
