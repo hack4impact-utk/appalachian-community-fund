@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Buffer } from 'buffer';
 import axios from 'axios';
+import { GetAuth } from '../../../lib/auth';
 import { AdminFilesAddData, defaultAdminFilesAddData } from '../../../utils/adminInterfaces';
 import styles from '../../../styles/Admin.module.scss';
 
@@ -35,14 +36,14 @@ const AdminFilesAdd: React.FunctionComponent = () => {
             // categories: [],
             // tags: []
         });
-        const authInfo = `Basic ${btoa(process.env.WORDPRESS_TOKEN)}` //TODO: Swap this out with the current logged in user's info
+        const authInfo = GetAuth(); //TODO: Swap this out with the current logged in user's info
 
         console.log(postPayload);
         console.log(authInfo);
 
         //First we should just create a new post with our meta data that links it to a file
         try {
-            const associatedPost = await axios.post('/wpapi/?rest_route=/wp/v2/post', {
+            const associatedPost = await axios.post('/wpapi/?rest_route=/wp/v2/posts', {
                 headers: {
                     Authorization: authInfo
                 },
