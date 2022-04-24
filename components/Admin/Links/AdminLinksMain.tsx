@@ -2,7 +2,10 @@ import React, { useContext, useState } from 'react';
 import styles from '../../../styles/Admin.module.scss';
 import AdminLinksAdd from './AdminLinksAdd';
 import Link from 'next/link';
+import { adminLinksContextStruct } from '../../../utils/interfaces';
 import { AdminContext } from '../../../pages/_app';
+
+const AdminLinksContext = React.createContext<adminLinksContextStruct | null>(null)
 
 const AdminLinksMain: React.FunctionComponent = () => {
 
@@ -33,9 +36,16 @@ const AdminLinksMain: React.FunctionComponent = () => {
     }
 
     return (
-        <div className={styles.main}>
-            {decidePage()}
-        </div>
+        <AdminLinksContext.Provider
+            value={{
+                linkPage,
+                setLinkPage
+            }}
+        >
+            <div className={styles.main}>
+                {decidePage()}
+            </div>
+        </AdminLinksContext.Provider>
     );
 }
 
@@ -44,4 +54,5 @@ enum LinkPages {
     LinkAdd
 }
 
+export { LinkPages, AdminLinksContext };
 export default AdminLinksMain;

@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 import { AdminPages } from "../pages/_app";
 import { WP_Post } from "./wordpressInterfaces";
+import { LinkPages } from "../components/Admin/Links/AdminLinksMain";
 
 export enum ArticleTags {
     Tag1,
@@ -52,6 +53,11 @@ export interface searchContextStruct {
 
 export interface adminContextStruct {
     testString: string
+}
+
+export interface adminLinksContextStruct {
+    linkPage: LinkPages,
+    setLinkPage: (page: LinkPages) => void
 }
 
 export interface tagStruct {

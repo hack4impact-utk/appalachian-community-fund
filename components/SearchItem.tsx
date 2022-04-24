@@ -57,6 +57,15 @@ const SearchItem: react.FC<props> = ({ itemData, style }: props) => {
         return newString;
     } 
 
+    const GetLink = (): string => {
+        if (itemData.format == 'link') {
+            const regex = /(?<=LINK@).+(?=<)/gm; //Looks for 'LINK@' in the content of the page to link to
+            return regex.exec(itemData.content.rendered)[0];
+        } else {
+            return itemData.link;
+        }
+    }
+
     return (
         <div style={style}>
             <h2 className={styles.searchItemHeader}>{itemData.title.rendered}</h2>
@@ -64,7 +73,7 @@ const SearchItem: react.FC<props> = ({ itemData, style }: props) => {
             <p className={styles.searchItemContent}>{ConvertExcerpt(itemData.excerpt.rendered)}</p>
             <div style={{ display: 'inline' }}>
                 {tagState}
-                <a style={{ float: 'right', marginRight: 15 }} target="#" href={itemData.link}>LEARN MORE</a>
+                <a style={{ float: 'right', marginRight: 15 }} target="#" href={GetLink()}>LEARN MORE</a>
             </div>
         </div>
     );

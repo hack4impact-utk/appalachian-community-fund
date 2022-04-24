@@ -56,18 +56,18 @@ const Search: React.FC = () => {
         const data: articleStruct[] = (await axios.get(`/wpapi/?rest_route=/wp/v2/posts${filters}`)).data;
         const featuredMediaIds: number[] = [];
 
-        data.forEach(x => { 
-            x.articleType = ArticleTypes.WordpressPost; 
-            if (x.featured_media !== 0) {
-                featuredMediaIds.push(x.featured_media); 
-            }
-        });
+        // data.forEach(x => { 
+        //     x.articleType = ArticleTypes.WordpressPost; 
+        //     if (x.featured_media !== 0) {
+        //         featuredMediaIds.push(x.featured_media); 
+        //     }
+        // });
 
         //This grabs all the featured media photos to be displayed on each article
         const media = await GetMedia(featuredMediaIds);
         media.forEach(x => {
             const index = data.findIndex(y => y.featured_media === x.id);
-            if (index !== undefined) {
+            if (index !== undefined && data[index] !== undefined) {
                 data[index].featuredImageLink = x.source_url;
             }
         });

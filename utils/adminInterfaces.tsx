@@ -15,3 +15,15 @@ export const defaultAdminFilesAddData: AdminFilesAddData = {
     category: [],
     file: null
 }
+
+export interface AdminLinkAddData {
+    url: string,
+    title: string,
+    description: string
+}
+
+export const defaultAdminLinkAddData: AdminLinkAddData = {
+    url: '',
+    title: '',
+    description: ''
+}
