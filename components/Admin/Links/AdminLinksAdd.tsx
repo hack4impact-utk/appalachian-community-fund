@@ -1,7 +1,10 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
+import CategoryDropdownAdmin from '../Shared/CategoryDropdown';
+import TagDropdownAdmin from '../Shared/TagsDropdown';
 import { AdminLinkAddData, defaultAdminLinkAddData } from '../../../utils/adminInterfaces';
 import { AdminLinksContext, LinkPages } from './AdminLinksMain';
+import { categoryStruct, tagStruct } from '../../../utils/interfaces';
 import { GetAuth } from '../../../lib/auth';
 import { WP_Post } from '../../../utils/wordpressInterfaces';
 import styles from '../../../styles/Admin.module.scss';
@@ -9,19 +12,28 @@ import styles from '../../../styles/Admin.module.scss';
 const AdminLinksAdd: React.FunctionComponent = () => {
 
     const [linkData, setLinkData] = useState<AdminLinkAddData>(defaultAdminLinkAddData);
+    const [selectedCategories, setSelectedCategories] = useState<categoryStruct[]>([]);
+    const [selectedTags, setSelectedTags] = useState<tagStruct[]>([]);
     const context = useContext(AdminLinksContext);
 
     const handleUpload = async () => {
 
         //TODO: Error check to make sure the link submitted is a valid link
 
+        const categoriesIDs: number[] = selectedCategories.map(x => x.id);
+        const tagsIDs: number[] = selectedTags.map(x => x.id);
+
         const postPayload = {
             'status': 'publish',
             'title': linkData.title,
             'content': `Links to external site ${linkData.url}\nLINK@${linkData.url}`, //NOTE: The search item component looks for LINK@ to know what URL to link to
             'excerpt': linkData.description,
-            'format': 'link'
+            'format': 'link',
+            'categories': categoriesIDs.join(),
+            'tags': tagsIDs.join()
         };
+
+        console.log(postPayload);
 
         try {
             const associatedPost: WP_Post = (await axios.post<string, any>('/wpapi/?rest_route=/wp/v2/posts', JSON.stringify(postPayload), { 
@@ -68,6 +80,14 @@ const AdminLinksAdd: React.FunctionComponent = () => {
                     placeholder='Description'
                     value={linkData.description}
                     onChange={(e) => setLinkData({ ...linkData, description: e.target.value })}
+                />
+
+                <CategoryDropdownAdmin 
+                    {...{ selectedCategories, setSelectedCategories }}
+                />
+
+                <TagDropdownAdmin 
+                    {...{ selectedTags, setSelectedTags }}
                 />
 
                 <input 
