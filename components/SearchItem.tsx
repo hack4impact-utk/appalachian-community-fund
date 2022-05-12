@@ -58,7 +58,10 @@ const SearchItem: react.FC<props> = ({ itemData, style }: props) => {
     } 
 
     const GetLink = (): string => {
-        if (itemData.format == 'link') {
+        if (itemData.format === 'link') {
+            const regex = /(?<=LINK@).+(?=<)/gm; //Looks for 'LINK@' in the content of the page to link to
+            return regex.exec(itemData.content.rendered)[0];
+        } else if (itemData.format === 'image') {
             const regex = /(?<=LINK@).+(?=<)/gm; //Looks for 'LINK@' in the content of the page to link to
             return regex.exec(itemData.content.rendered)[0];
         } else {

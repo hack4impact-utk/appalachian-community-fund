@@ -4,6 +4,8 @@ import Link from 'next/link';
 import AdminFilesAdd from './AdminFilesAdd';
 import { AdminContext } from '../../../pages/_app';
 
+//const AdminFilesContext = React.createContext();
+
 const AdminFilesMain: React.FunctionComponent = () => {
 
     const context = useContext(AdminContext);
@@ -19,6 +21,12 @@ const AdminFilesMain: React.FunctionComponent = () => {
             </Link>
         </div>
     );
+}
+
+enum LinkPages {
+    FileMain,
+    FileAdd,
+    FileEdit
 }
 
 export default AdminFilesMain;

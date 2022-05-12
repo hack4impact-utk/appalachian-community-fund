@@ -19,7 +19,15 @@ export const defaultAdminFilesAddData: AdminFilesAddData = {
 export interface AdminLinkAddData {
     url: string,
     title: string,
-    description: string
+    description: string,
+    id?: number,
+}
+
+export interface AdminSaveLinkData {
+    id: number,
+    title: string,
+    excerpt: string,
+    content: string
 }
 
 export const defaultAdminLinkAddData: AdminLinkAddData = {

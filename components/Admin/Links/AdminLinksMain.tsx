@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import styles from '../../../styles/Admin.module.scss';
 import AdminLinksAdd from './AdminLinksAdd';
+import ExistingLinksTable from './AdminExistingLinks';
 import Link from 'next/link';
 import { adminLinksContextStruct } from '../../../utils/interfaces';
 import { AdminContext } from '../../../pages/_app';
@@ -21,11 +22,16 @@ const AdminLinksMain: React.FunctionComponent = () => {
                 return (
                     <AdminLinksAdd />
                 );
+            case (LinkPages.LinkEdit):
+                return (
+                    <ExistingLinksTable />
+                );
             default:
                 return (
                     <React.Fragment>
                         Links Main
                         <button className={styles.main_button} onClick={() => setLinkPage(LinkPages.LinkAdd)}>Add Link</button>
+                        <button className={styles.main_button} onClick={() => setLinkPage(LinkPages.LinkEdit)}>Edit Link</button>
                         List of Links here
                         <Link href="/admin">
                             <button className={styles.main_button}>Go Back</button>
@@ -51,7 +57,8 @@ const AdminLinksMain: React.FunctionComponent = () => {
 
 enum LinkPages {
     LinkMain,
-    LinkAdd
+    LinkAdd,
+    LinkEdit
 }
 
 export { LinkPages, AdminLinksContext };

@@ -76,6 +76,10 @@ export interface categoryStruct {
     slug: string
 }
 
+export interface adminFilesContextStruct {
+    
+}
+
 export const testMetaData: ArticleMetaData[] = [
     { id: 1, articleName: "My article 1", articleDescription: "Some cool article", articleDate: new Date(), articleTags: [ArticleTags.Tag1] },
     { id: 2, articleName: "My Secret plans", articleDescription: "Don't look", articleDate: new Date(), articleTags: [ArticleTags.Tag2], articleAddress: "123 Main Street" },

@@ -4,7 +4,10 @@ import axios from 'axios';
 import { GetAuth } from '../../../lib/auth';
 import { AdminFilesAddData, defaultAdminFilesAddData } from '../../../utils/adminInterfaces';
 import styles from '../../../styles/Admin.module.scss';
-import { WP_Post } from '../../../utils/wordpressInterfaces';
+import CategoryDropdownAdmin from '../Shared/CategoryDropdown';
+import TagDropdownAdmin from '../Shared/TagsDropdown';
+import { categoryStruct, tagStruct } from '../../../utils/interfaces';
+import { WP_Post, WP_Media } from '../../../utils/wordpressInterfaces';
 
 //Good source: https://www.edmundcwm.com/uploading-media-using-the-wp-rest-api-and-javascript/
 // https://rudrastyh.com/wordpress/rest-api-create-delete-posts.html
@@ -13,10 +16,15 @@ import { WP_Post } from '../../../utils/wordpressInterfaces';
 const AdminFilesAdd: React.FunctionComponent = () => {
 
     const [newFileData, setNewFileData] = useState<AdminFilesAddData>(defaultAdminFilesAddData);
+    const [selectedCategories, setSelectedCategories] = useState<categoryStruct[]>([]);
+    const [selectedTags, setSelectedTags] = useState<tagStruct[]>([]);
 
     const handleUpload = async (e) => {
 
         console.log(newFileData);
+
+        const categoriesIDs: number[] = selectedCategories.map(x => x.id);
+        const tagsIDs: number[] = selectedTags.map(x => x.id);
 
         const postPayload = {
               //'date': newFileData.articleDate.toDateString(),
@@ -25,64 +33,55 @@ const AdminFilesAdd: React.FunctionComponent = () => {
             'status': 'publish',
             //password: '',
             'title': newFileData.fileName,
-            'content': `File ${newFileData.fileName} hosted here`, //NOTE: This may need to be an object
+            'content': ``,
             //author: '0', //TODO: Swap this out with the current logged in user's ID
-              //'excerpt': `File ${newFileData.fileName}`,
+            'excerpt': `File ${newFileData.fileName}`,
             //featured_media: '',
               //'comment_status': 'closed',
             //ping_status: 'close', //TODO: Find what this is for and set it correctly
-              //'format': 'image',
+            'format': 'image',
             // meta: '',
             // sticky: '',
             // template: '',
-            // categories: [],
-            // tags: []
+            'categories': categoriesIDs.join(),
+            'tags': tagsIDs.join()
         };
         const authInfo = GetAuth(); //TODO: Swap this out with the current logged in user's info
 
         console.log(postPayload);
         console.log(authInfo);
 
-        //First we should just create a new post with our meta data that links it to a file
+        //Now we post the media item
         try {
-            const associatedPost: WP_Post = (await axios.post<string, any>('/wpapi/?rest_route=/wp/v2/posts', JSON.stringify(postPayload), { 
+            const formData = new FormData();
+            formData.append('file', newFileData.file);
+    
+            //We can append the arguments listed in the wordpress rest api here
+            formData.append('title', newFileData.fileName);
+            formData.append('description', newFileData.fileName);
+            formData.append('status', 'publish');
+            //formData.append('post', associatedPost.id.toString());
+
+            const mediaItem: WP_Media = (await axios.post<FormData, any>(`/wpapi/?rest_route=/wp/v2/media`, formData, {
                 headers: {
-                    'Content-Type': 'application/json',
-                    'accept': 'application/json',
+                    'Content-Disposition': `form-data; filename='${newFileData.fileName}'`,
                     'Authorization': authInfo
                 }
             })).data;
+            console.log(mediaItem);
 
-            // const associatedPost = await fetch('/wpapi/?rest_route=/wp/v2/posts', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //         'accept': 'application/json',
-            //         'Authorization': authInfo
-            //     },
-            //     body: JSON.stringify(postPayload)
-            // });
-    
-            console.log(associatedPost);
-
-            //Now we post the media item
+            //First we should just create a new post with our meta data that links it to a file
             try {
-                const formData = new FormData();
-                formData.append('file', newFileData.file);
-        
-                //We can append the arguments listed in the wordpress rest api here
-                formData.append('title', newFileData.fileName);
-                formData.append('description', newFileData.fileName);
-                formData.append('status', 'publish');
-                formData.append('post', associatedPost.id.toString());
-
-                const mediaItem = (await axios.post(`/wpapi/?rest_route=/wp/v2/media`, formData, {
+                postPayload.content = `File ${newFileData.fileName} hosted here.\nLINK@${mediaItem.source_url}`
+                const associatedPost: WP_Post = (await axios.post<string, any>('/wpapi/?rest_route=/wp/v2/posts', JSON.stringify(postPayload), { 
                     headers: {
-                        'Content-Disposition': `form-data; filename='${newFileData.fileName}'`,
+                        'Content-Type': 'application/json',
+                        'accept': 'application/json',
                         'Authorization': authInfo
                     }
-                }));
-                console.log(mediaItem);
+                })).data;
+        
+                console.log(associatedPost);
             }
             catch (ex) {
                 console.log(ex);
@@ -114,8 +113,13 @@ const AdminFilesAdd: React.FunctionComponent = () => {
                     placeholder='Author'
                     onChange={e => setNewFileData({ ...newFileData, author: e.target.value })}
                 />
-                <h6>Put Categories here</h6>
-                <h6>Put Tags here</h6>
+                <CategoryDropdownAdmin 
+                    {...{ selectedCategories, setSelectedCategories }}
+                />
+
+                <TagDropdownAdmin 
+                    {...{ selectedTags, setSelectedTags }}
+                />
                 <h4>Optional</h4>
                 <input 
                     className={styles.file_input}
