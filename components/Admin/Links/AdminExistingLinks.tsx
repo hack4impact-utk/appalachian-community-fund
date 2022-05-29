@@ -5,7 +5,7 @@ import { AdminLinksContext, LinkPages } from './AdminLinksMain';
 import { AdminLinkAddData, AdminSaveLinkData } from '../../../utils/adminInterfaces';
 import { articleStruct } from '../../../utils/interfaces';
 import styles from '../../../styles/Admin.module.scss';
-import { DataGrid, GridCellEditCommitParams, GridEditCellPropsParams, GridRowId, MuiEvent } from '@mui/x-data-grid';
+import { DataGrid, GridCellEditCommitParams, MuiEvent } from '@mui/x-data-grid';
 
 const ExistingLinksTable = () => {
 

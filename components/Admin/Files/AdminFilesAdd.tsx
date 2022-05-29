@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { AdminFilesContext, FilePage } from './AdminFilesMain';
 import { Buffer } from 'buffer';
 import axios from 'axios';
 import { GetAuth } from '../../../lib/auth';
@@ -18,6 +19,7 @@ const AdminFilesAdd: React.FunctionComponent = () => {
     const [newFileData, setNewFileData] = useState<AdminFilesAddData>(defaultAdminFilesAddData);
     const [selectedCategories, setSelectedCategories] = useState<categoryStruct[]>([]);
     const [selectedTags, setSelectedTags] = useState<tagStruct[]>([]);
+    const context = useContext(AdminFilesContext);
 
     const handleUpload = async (e) => {
 
@@ -134,6 +136,8 @@ const AdminFilesAdd: React.FunctionComponent = () => {
                     value="Submit"
                     onClick={handleUpload}
                 />
+
+                <button className={styles.main_button} onClick={() => context.setFilePage(FilePage.FileMain)}>Go Back</button>
                 
             </div>
         </React.Fragment>
