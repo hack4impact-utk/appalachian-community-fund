@@ -118,6 +118,37 @@ const Search: React.FC = () => {
         setAllTags(tags);
         console.log(addresses);
         setAllCategories(categories);
+
+        //TODO: This is the same code as above in UpdateCurrentFilters, change this so we aren't making the same call twice
+        const data: articleStruct[] = (await axios.get(`/wpapi/?rest_route=/wp/v2/posts&page=${currentPage}&per_page=${countPerPage}`)).data;
+        const featuredMediaIds: number[] = [];
+
+        data.forEach(x => { 
+            x.articleType = ArticleTypes.WordpressPost; 
+
+            //Grabs the featured images to load in
+            if (x.featured_media !== 0) {
+                featuredMediaIds.push(x.featured_media); 
+            }
+
+            //Grabs the file links
+            if (x.format === 'image') {
+                featuredMediaIds.push(x.id);
+            }
+
+        });
+
+        //This grabs all the featured media photos to be displayed on each article
+        const media = await GetMedia(featuredMediaIds);
+        media.forEach(x => {
+            const index = data.findIndex(y => y.featured_media === x.id);
+            if (index !== undefined && data[index] !== undefined) {
+                data[index].featuredImageLink = x.source_url;
+            }
+        });
+
+        setFilteredPosts(data);
+        setDataLoaded(true);
     }
 
     return (

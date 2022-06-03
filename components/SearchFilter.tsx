@@ -51,7 +51,7 @@ const SearchFilter: react.FC = () => {
                 <div style={{ display: 'flex', marginTop: 10 }}>
                     <CategoryDropdown />
                     <TagDropdown />
-                    <AddressSearchBar />
+                    {/* <AddressSearchBar /> */}
                     <div style={{ flex: 2 }} />
                 </div>
                 

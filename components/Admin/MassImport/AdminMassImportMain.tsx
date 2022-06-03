@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import styles from '../../../styles/Admin.module.scss';
 import Link from 'next/link';
+import ImportTool from './ImportTool';
 import { AdminContext } from '../../../pages/_app';
 
 const AdminMassImportMain: React.FunctionComponent = () => {
@@ -12,6 +13,7 @@ const AdminMassImportMain: React.FunctionComponent = () => {
     return (
         <div className={styles.main}>
             Mass Import Main
+            <ImportTool />
             <Link href="/admin">
                 <button className={styles.main_button}>Go Back</button>
             </Link>

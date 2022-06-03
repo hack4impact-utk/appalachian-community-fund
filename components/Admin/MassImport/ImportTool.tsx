@@ -1,7 +1,7 @@
 /* eslint-disable func-style */
 // https://github.com/exceljs/exceljs
 import React from 'react';
-import styles from '../styles/Home.module.scss';
+import styles from '../../../styles/Home.module.scss';
 import ReactFileReader from 'react-file-reader';
 import Papa from 'papaparse';
 
@@ -20,7 +20,7 @@ const ImportTool: React.FC = () => {
     return (
         <div className={styles.Container}>
             {/* This component comes from a package that automatically handles files for us */}
-            <ReactFileReader handleFiles={handleFile} fileTypes={'.csv'}>
+            <ReactFileReader handleFiles={handleFile} fileTypes={['.csv', '.xlsx']}>
                 <button className='btn'>Upload File</button>
             </ReactFileReader>
         </div>

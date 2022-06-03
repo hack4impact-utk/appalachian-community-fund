@@ -1,7 +1,7 @@
 /* eslint-disable func-style */
 // https://github.com/exceljs/exceljs
 import React from 'react';
-import ImportTool from '../components/ImportTool';
+import ImportTool from '../components/Admin/MassImport/ImportTool';
 import Head from 'next/Head';
 import styles from '../styles/Home.module.scss';
 
