@@ -33,6 +33,9 @@ const AdminMain: React.FunctionComponent = () => {
                 <Link href="/admin/massimport">
                     <button className={styles.main_button}>Mass Import Tool</button>
                 </Link>
+                <Link href="/admin/guarantor">
+                    <button className={styles.main_button}>Add Guarantor</button>
+                </Link>
                 <Link href="/admin/help">
                     <button className={styles.main_button}>Help</button>
                 </Link>

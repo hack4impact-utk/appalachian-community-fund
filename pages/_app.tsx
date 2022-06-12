@@ -1,4 +1,6 @@
 import React from 'react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { AppProps } from 'next/app';
 import Script from 'next/script';
 import { useContext } from 'react';
@@ -23,6 +25,9 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     return (
         <>
             <Script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCswu5h7nMIC7q-6jDDS_QlTiVImormie0&libraries=places" />
+            <ToastContainer 
+                position='bottom-right'
+            />
 
             <Navbar {...navLinks} />
             <AdminContext.Provider

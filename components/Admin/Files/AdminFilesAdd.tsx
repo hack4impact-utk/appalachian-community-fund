@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { AdminFilesContext, FilePage } from './AdminFilesMain';
+import { handleUpload as handleUploadHelper } from '../../../utils/fileUploadHelper';
 import { Buffer } from 'buffer';
 import axios from 'axios';
 import { GetAuth } from '../../../lib/auth';
@@ -50,44 +51,21 @@ const AdminFilesAdd: React.FunctionComponent = () => {
         };
         const authInfo = GetAuth(); //TODO: Swap this out with the current logged in user's info
 
-        console.log(postPayload);
-        console.log(authInfo);
-
         //Now we post the media item
-        try {
-            const formData = new FormData();
-            formData.append('file', newFileData.file);
-    
-            //We can append the arguments listed in the wordpress rest api here
-            formData.append('title', newFileData.fileName);
-            formData.append('description', newFileData.fileName);
-            formData.append('status', 'publish');
-            //formData.append('post', associatedPost.id.toString());
+        const mediaItem = await handleUploadHelper(newFileData);
 
-            const mediaItem: WP_Media = (await axios.post<FormData, any>(`/wpapi/?rest_route=/wp/v2/media`, formData, {
+        //Create a new post with our meta data that links it to a file
+        try {
+            postPayload.content = `File ${newFileData.fileName} hosted here.\nLINK@${mediaItem.source_url}`
+            const associatedPost: WP_Post = (await axios.post<string, any>('/wpapi/?rest_route=/wp/v2/posts', JSON.stringify(postPayload), { 
                 headers: {
-                    'Content-Disposition': `form-data; filename='${newFileData.fileName}'`,
+                    'Content-Type': 'application/json',
+                    'accept': 'application/json',
                     'Authorization': authInfo
                 }
             })).data;
-            console.log(mediaItem);
-
-            //First we should just create a new post with our meta data that links it to a file
-            try {
-                postPayload.content = `File ${newFileData.fileName} hosted here.\nLINK@${mediaItem.source_url}`
-                const associatedPost: WP_Post = (await axios.post<string, any>('/wpapi/?rest_route=/wp/v2/posts', JSON.stringify(postPayload), { 
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'accept': 'application/json',
-                        'Authorization': authInfo
-                    }
-                })).data;
-        
-                console.log(associatedPost);
-            }
-            catch (ex) {
-                console.log(ex);
-            }
+    
+            console.log(associatedPost);
         }
         catch (ex) {
             console.log(ex);
