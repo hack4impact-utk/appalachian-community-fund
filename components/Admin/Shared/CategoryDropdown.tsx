@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { categoryStruct } from '../../../utils/interfaces';
+import styles from '../../../styles/Admin.module.scss';
 import { FormControl, InputLabel, Select, Box, Chip, OutlinedInput, MenuItem } from '@mui/material';
 
 interface props {
@@ -56,15 +57,14 @@ const CategoryDropdownAdmin: React.FunctionComponent<props> = ({ selectedCategor
 
     return (
         <React.Fragment>
-            <FormControl sx={{ width: 200 }} size="small">
-				<InputLabel id="demo-multiple-chip-label" className="applyFont">Category</InputLabel>
+            <FormControl size="small" className={styles.input_parent}>
+				<h3 className={styles.input_header_select}>Category</h3>
 				<Select
-					id="tag-dropdown"
+					id="cat-dropdown"
 					multiple
 					value={selectedCategories}
 					onChange={handleChange}
-					input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-					className="applyFont"
+					className={styles.input_select}
 					renderValue={(select) => (
 						<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
 							{select.map((value) => (
@@ -78,7 +78,7 @@ const CategoryDropdownAdmin: React.FunctionComponent<props> = ({ selectedCategor
 						<MenuItem
 							key={x.id}
 							value={x.id}
-							className="applyFont"
+							className={styles.font_fix}
 						>
 							{x.name}
 						</MenuItem>

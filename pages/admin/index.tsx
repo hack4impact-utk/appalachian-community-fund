@@ -7,6 +7,7 @@ import AdminAddressesMain from '../../components/Admin/Addresses/AdminAddressesM
 import AdminFilesMain from '../../components/Admin/Files/AdminFilesMain';
 import AdminMassImportMain from '../../components/Admin/MassImport/AdminMassImportMain';
 import Link from 'next/link';
+import AdminButton from '../../components/Admin/Shared/AdminButton';
 import { Button } from '@mui/material';
 
 const AdminMain: React.FunctionComponent = () => {
@@ -19,25 +20,25 @@ const AdminMain: React.FunctionComponent = () => {
         //TODO: Check login creds and return the invalid page if they aren't logged in
         return (
             <div className={styles.main}>
-                Admin Page
+                <h1>Admin Page</h1>
                 <p>If you are not an admin pls leave</p>
                 <Link href="/admin/links">
-                    <button className={styles.main_button}>Manage Links</button>
+                    <AdminButton message='Manage Links' onClick={() => null} />
                 </Link>
-                <Link href="/admin/addresses">
-                    <button className={styles.main_button}>Manage Addresses</button>
-                </Link>
+                {/* <Link href="/admin/addresses">
+                    <AdminButton message='Manage Addresses' onClick={() => null} />
+                </Link> */}
                 <Link href="/admin/files">
-                    <button className={styles.main_button}>Manage Files</button>
+                    <AdminButton message='Manage Files' onClick={() => null} />
                 </Link>
                 <Link href="/admin/massimport">
-                    <button className={styles.main_button}>Mass Import Tool</button>
+                    <AdminButton message='Mass Import Tool' onClick={() => null} />
                 </Link>
                 <Link href="/admin/guarantor">
-                    <button className={styles.main_button}>Add Guarantor</button>
+                    <AdminButton message='Add Guarantor' onClick={() => null} />
                 </Link>
                 <Link href="/admin/help">
-                    <button className={styles.main_button}>Help</button>
+                    <AdminButton message='Help' onClick={() => null} />
                 </Link>
             </div>
         );

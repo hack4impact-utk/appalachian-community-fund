@@ -8,6 +8,8 @@ import { AdminFilesAddData, defaultAdminFilesAddData } from '../../../utils/admi
 import styles from '../../../styles/Admin.module.scss';
 import CategoryDropdownAdmin from '../Shared/CategoryDropdown';
 import TagDropdownAdmin from '../Shared/TagsDropdown';
+import AdminTextBox from '../Shared/AdminTextbox';
+import AdminButton from '../Shared/AdminButton';
 import { categoryStruct, tagStruct } from '../../../utils/interfaces';
 import { WP_Post, WP_Media } from '../../../utils/wordpressInterfaces';
 
@@ -74,50 +76,40 @@ const AdminFilesAdd: React.FunctionComponent = () => {
 
     return (
         <React.Fragment>
-            <div style={{ textAlign: 'center' }}>
-                <input 
-                    className={styles.file_input}
-                    type="file"
-                    onChange={(e) => setNewFileData({ ...newFileData, file: e.target.files[0] })}
-                />
-                <h4>Required</h4>
-                <input 
-                    className={styles.file_input}
-                    type="text"
-                    placeholder='File Name'
-                    onChange={e => setNewFileData({ ...newFileData, fileName: e.target.value })}
-                />
-                <input 
-                    className={styles.file_input}
-                    type="text"
-                    placeholder='Author'
-                    onChange={e => setNewFileData({ ...newFileData, author: e.target.value })}
-                />
-                <CategoryDropdownAdmin 
-                    {...{ selectedCategories, setSelectedCategories }}
-                />
+            <div className={styles.admin_content}>
+                <h1 className={styles.admin_header}>Add New Link Post</h1>
+                <div style={{ display: 'flex', flexDirection: 'row' }}>
 
-                <TagDropdownAdmin 
-                    {...{ selectedTags, setSelectedTags }}
-                />
-                <h4>Optional</h4>
-                <input 
-                    className={styles.file_input}
-                    type="date"
-                    placeholder='Date of Article'
-                    onChange={e => setNewFileData({ ...newFileData, articleDate: new Date(e.target.value)})}
-                />
+                    <div style={{ flexDirection: 'column', display: 'flex', flex: 1 }}>
+                        <h3 className={styles.admin_header}>Required</h3>
+                        <AdminTextBox
+                            header='File Upload'
+                            type='file'
+                            setValue={(e) => { console.log(e); setNewFileData({ ...newFileData, file: e }); }}
+                        />
+                        <AdminTextBox header='File Name' value={newFileData.fileName} setValue={(e) => setNewFileData({ ...newFileData, fileName: e as string })} />
+                    </div>
+                    <div style={{ flexDirection: 'column', display: 'flex', flex: 1 }}>
+                        <h3 className={styles.admin_header}>Optional</h3>
+                        <CategoryDropdownAdmin 
+                            {...{ selectedCategories, setSelectedCategories }}
+                        />
+                        <TagDropdownAdmin 
+                            {...{ selectedTags, setSelectedTags }}
+                        />
+                        <AdminTextBox header='Author' value={newFileData.author} setValue={(e) => setNewFileData({ ...newFileData, author: e as string })} />
+                        <AdminTextBox 
+                            header='Date of Article' 
+                            value={newFileData.articleDate?.toDateString() || ''} 
+                            setValue={(e) => setNewFileData({ ...newFileData, articleDate: new Date(e as string) })} 
+                            type='date' 
+                        />
+                    </div>
 
-                <input 
-                    className={styles.file_input}
-                    type="button"
-                    value="Submit"
-                    onClick={handleUpload}
-                />
-
-                <button className={styles.main_button} onClick={() => context.setFilePage(FilePage.FileMain)}>Go Back</button>
-                
+                </div>
             </div>
+            <AdminButton message='Submit' size='large' onClick={() => handleUpload} />
+            <AdminButton message='Go Back' onClick={() => context.setFilePage(FilePage.FileMain)} />
         </React.Fragment>
     );
 }

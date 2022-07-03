@@ -3,6 +3,7 @@ import styles from '../../../styles/Admin.module.scss';
 import Link from 'next/link';
 import AdminFilesAdd from './AdminFilesAdd';
 import AdminFilesEdit from './AdminFilesEdit';
+import AdminButton from '../Shared/AdminButton';
 import { adminFilesContextStruct } from '../../../utils/interfaces';
 import { AdminContext } from '../../../pages/_app';
 
@@ -29,11 +30,11 @@ const AdminFilesMain: React.FunctionComponent = () => {
             default:
                 return (
                     <React.Fragment>
-                        <p>Files Main</p>
-                        <button className={styles.main_button} onClick={() => setFilePage(FilePage.FileAdd)}>Add File</button>
-                        <button className={styles.main_button} onClick={() => setFilePage(FilePage.FileEdit)}>Edit Files</button>
+                        <h1>Manage Files</h1>
+                        <AdminButton message='Add File' onClick={() => setFilePage(FilePage.FileAdd)} />
+                        <AdminButton message='Edit Files' onClick={() => setFilePage(FilePage.FileEdit)} />
                         <Link href="/admin">
-                            <button className={styles.main_button}>Go Back</button>
+                            <AdminButton message='Go Back' onClick={() => null} />
                         </Link>
                     </React.Fragment>
                 );

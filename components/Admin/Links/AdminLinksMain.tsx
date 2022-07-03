@@ -3,6 +3,7 @@ import styles from '../../../styles/Admin.module.scss';
 import AdminLinksAdd from './AdminLinksAdd';
 import ExistingLinksTable from './AdminExistingLinks';
 import Link from 'next/link';
+import AdminButton from '../Shared/AdminButton';
 import { adminLinksContextStruct } from '../../../utils/interfaces';
 import { AdminContext } from '../../../pages/_app';
 
@@ -29,12 +30,11 @@ const AdminLinksMain: React.FunctionComponent = () => {
             default:
                 return (
                     <React.Fragment>
-                        Links Main
-                        <button className={styles.main_button} onClick={() => setLinkPage(LinkPages.LinkAdd)}>Add Link</button>
-                        <button className={styles.main_button} onClick={() => setLinkPage(LinkPages.LinkEdit)}>Edit Link</button>
-                        List of Links here
+                        <h1>Manage Links</h1>
+                        <AdminButton message='Add Link' onClick={() => setLinkPage(LinkPages.LinkAdd)} />
+                        <AdminButton message='Edit Link' onClick={() => setLinkPage(LinkPages.LinkEdit)} />
                         <Link href="/admin">
-                            <button className={styles.main_button}>Go Back</button>
+                            <AdminButton message='Go Back' onClick={() => null} />
                         </Link>
                     </React.Fragment>
                 );

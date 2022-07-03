@@ -7,6 +7,8 @@ import { AdminLinksContext, LinkPages } from './AdminLinksMain';
 import { categoryStruct, tagStruct } from '../../../utils/interfaces';
 import { GetAuth } from '../../../lib/auth';
 import { WP_Post } from '../../../utils/wordpressInterfaces';
+import AdminTextBox from '../Shared/AdminTextbox';
+import AdminButton from '../Shared/AdminButton';
 import styles from '../../../styles/Admin.module.scss';
 
 const AdminLinksAdd: React.FunctionComponent = () => {
@@ -54,51 +56,31 @@ const AdminLinksAdd: React.FunctionComponent = () => {
 
     return (
         <React.Fragment>
-            <div style={{ textAlign: 'center' }}>
-                <h4>URL</h4>
-                <input 
-                    className={styles.file_input}
-                    type="text"
-                    placeholder='URL'
-                    value={linkData.url}
-                    onChange={(e) => setLinkData({ ...linkData, url: e.target.value })}
-                />
+            <div className={styles.admin_content}>
+                <h1 className={styles.admin_header}>Add New Link Post</h1>
+                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                    
+                    <div style={{ flexDirection: 'column', display: 'flex', flex: 1 }}>
+                        <h3 className={styles.admin_header}>Required</h3>
+                        <AdminTextBox header='URL' value={linkData.url} setValue={(val: string) => setLinkData({ ...linkData, url: val })} />
+                        <AdminTextBox header='Title' value={linkData.title} setValue={(val: string) => setLinkData({ ...linkData, title: val })} />
+                        <AdminTextBox header='Description' value={linkData.description} setValue={(val: string) => setLinkData({ ...linkData, description: val })} />
+                    </div>
+                    <div style={{ flexDirection: 'column', display: 'flex', flex: 1 }}>
+                        <h3 className={styles.admin_header}>Optional</h3>
+                        <CategoryDropdownAdmin 
+                            {...{ selectedCategories, setSelectedCategories }}
+                        />
 
-                <h4>Title</h4>
-                <input 
-                    className={styles.file_input}
-                    type="text"
-                    placeholder='Title'
-                    value={linkData.title}
-                    onChange={(e) => setLinkData({ ...linkData, title: e.target.value })}
-                />
-
-                <h4>Description</h4>
-                <input 
-                    className={styles.file_input}
-                    type="text"
-                    placeholder='Description'
-                    value={linkData.description}
-                    onChange={(e) => setLinkData({ ...linkData, description: e.target.value })}
-                />
-
-                <CategoryDropdownAdmin 
-                    {...{ selectedCategories, setSelectedCategories }}
-                />
-
-                <TagDropdownAdmin 
-                    {...{ selectedTags, setSelectedTags }}
-                />
-
-                <input 
-                    className={styles.file_input}
-                    type="button"
-                    value="Submit"
-                    onClick={handleUpload}
-                />
-
-                <button className={styles.main_button} onClick={() => context.setLinkPage(LinkPages.LinkMain)}>Go Back</button>
+                        <TagDropdownAdmin 
+                            {...{ selectedTags, setSelectedTags }}
+                        />
+                    </div> 
+                </div>
+                
             </div>
+            <AdminButton message='Submit' onClick={handleUpload} size='large' />
+            <AdminButton message='Go Back' onClick={() => context.setLinkPage(LinkPages.LinkMain)} />
         </React.Fragment>
     );
 }
