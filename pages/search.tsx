@@ -1,4 +1,5 @@
-import React, { useState, createContext, useEffect } from 'react';
+import React, { useState, createContext, useEffect, useContext } from 'react';
+import { AdminContext } from './_app';
 import axios from 'axios';
 import Head from 'next/Head';
 import styles from '../styles/Home.module.scss';
@@ -11,6 +12,7 @@ const SearchContext = createContext<searchContextStruct | null>(null);
 
 const Search: React.FC = () => {
 
+    const context = useContext(AdminContext);
     const [currentSearchFilters, setCurrentSearchFilters] = useState<searchFilterStruct | null>(null);
     const [allTags, setAllTags] = useState<tagStruct[]>([]);
     const [allCategories, setAllCategories] = useState<categoryStruct[]>([]);
@@ -43,6 +45,7 @@ const Search: React.FC = () => {
         console.log(newFilters);
 
         if (!newFilters) return; //This is a safety on initial load in case the state value is also null
+        context.StartLoad();
         if (!dataLoaded) {
             setDataLoaded(true);
         }
@@ -82,6 +85,7 @@ const Search: React.FC = () => {
 
         setFilteredPosts(data);
         console.log(data);
+        context.EndLoad();
     }
 
     const GetTags = async (): Promise<tagStruct[]> => {
@@ -114,6 +118,7 @@ const Search: React.FC = () => {
 
     const GetInitialData = async () => {
         //All this data only ever needs to be loaded once
+        context.StartLoad();
         const [tags, categories, addresses] = await Promise.all([GetTags(), GetCategories(), GetAddresses()]);
         setAllTags(tags);
         console.log(addresses);
@@ -149,6 +154,7 @@ const Search: React.FC = () => {
 
         setFilteredPosts(data);
         setDataLoaded(true);
+        context.EndLoad();
     }
 
     return (
@@ -168,7 +174,7 @@ const Search: React.FC = () => {
                     <title>Search</title>
                 </Head>
                 <main className={styles.main}>
-                    <h1>Search Page</h1>
+                    <h1>Search</h1>
                     <SearchFilter />
                     <InfiniteScroller />
                     {dataLoaded && <div>

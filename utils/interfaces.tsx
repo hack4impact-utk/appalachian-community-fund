@@ -53,7 +53,8 @@ export interface searchContextStruct {
 }
 
 export interface adminContextStruct {
-    testString: string
+    StartLoad: () => void;
+    EndLoad: () => void;
 }
 
 export interface adminLinksContextStruct {
