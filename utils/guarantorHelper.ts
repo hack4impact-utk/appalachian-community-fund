@@ -5,6 +5,7 @@ import { handleUpload } from './fileUploadHelper';
 import { categoryStruct, tagStruct } from './interfaces';
 import { GetAuth } from '../lib/auth';
 import { IGuarantor } from  '../components/Admin/Guarantor/GuarantorMain';
+import { AddAddressAsync } from './dataHelper';
 import moment from 'moment';
 
 interface ITemplate {
@@ -15,7 +16,8 @@ interface ITemplate {
     phone: string | null,
     email: string | null,
     address: string | null,
-    imageURL: string | null
+    imageURL: string | null,
+    website: string | null
 }
 
 const CreateContentString = (data: ITemplate): string => {
@@ -41,6 +43,9 @@ const CreateContentString = (data: ITemplate): string => {
                 ) : ''}
                 ${data.phone ? (
                     `Phone: ${data.phone}`
+                ) : ''}
+                ${data.website ? (
+                    `Website: ${data.website}`
                 ) : ''}
             </p>\n\n\n
             <p></p>\n
@@ -80,7 +85,8 @@ const CreateGuarantorPost = async (guarantorData: IGuarantor, selectedCategories
             phone: guarantorData.phone,
             email: guarantorData.email,
             address: guarantorData.address,
-            imageURL: mediaItem.source_url
+            imageURL: mediaItem.source_url,
+            website: guarantorData.website
         }),
         //author: '0', //TODO: Swap this out with the current logged in user's ID
         'excerpt': guarantorData.shortDescription,
@@ -109,6 +115,20 @@ const CreateGuarantorPost = async (guarantorData: IGuarantor, selectedCategories
 
         console.log(associatedPost);
         toast.success('Guarantor Added!');
+
+        //Save the address if there is one
+        if (guarantorData.address) {
+            try {
+                await AddAddressAsync({
+                    postId: associatedPost.id,
+                    address: guarantorData.address,
+                });
+            }
+            catch (ex) {
+                toast.error('Failed to save address!');
+            }
+        }
+
         return true;
     }
     catch (ex) {

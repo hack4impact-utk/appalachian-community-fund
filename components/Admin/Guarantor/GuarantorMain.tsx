@@ -8,6 +8,9 @@ import { WP_Post } from '../../../utils/wordpressInterfaces';
 import { GetAuth } from '../../../lib/auth';
 import CategoryDropdownAdmin from '../Shared/CategoryDropdown';
 import TagDropdownAdmin from '../Shared/TagsDropdown';
+import AdminTextBox from '../Shared/AdminTextbox';
+import { AdminFilesAddData } from '../../../utils/adminInterfaces';
+import AdminButton from '../Shared/AdminButton';
 import styles from '../../../styles/Admin.module.scss';
 
 //NOTE: This is how this page works. First the layout was create in Wordpress of how we wanted this data to look
@@ -19,7 +22,8 @@ interface IGuarantor {
     shortDescription: string,
     address: string,
     email: string,
-    phone: string
+    phone: string,
+    website: string
 }
 
 const defaultGuarantor: IGuarantor = {
@@ -28,7 +32,8 @@ const defaultGuarantor: IGuarantor = {
     shortDescription: '',
     address: '',
     email: '',
-    phone: ''
+    phone: '',
+    website: ''
 }
 
 const GuarantorMain: React.FC = () => {
@@ -37,7 +42,7 @@ const GuarantorMain: React.FC = () => {
 
     const [selectedCategories, setSelectedCategories] = useState<categoryStruct[]>([]);
     const [selectedTags, setSelectedTags] = useState<tagStruct[]>([]);
-    const [fileData, setFileData] = useState<File>();
+    const [fileData, setFileData] = useState<AdminFilesAddData>();
 
     const handleSubmit = async () => {
 
@@ -45,7 +50,7 @@ const GuarantorMain: React.FC = () => {
         if (guarantorData.title === '') return;
         if (guarantorData.description === '') return;
 
-        const success = await CreateGuarantorPost(guarantorData, selectedCategories, selectedTags, fileData);
+        const success = await CreateGuarantorPost(guarantorData, selectedCategories, selectedTags, fileData.file);
 
         if (success) {
             setGuarantorData(defaultGuarantor);
@@ -57,25 +62,34 @@ const GuarantorMain: React.FC = () => {
 
     return (
         <div className={styles.main}>
-            <h2>Add a Guarantor Here</h2>
-            <form>
-                <input className={styles.file_input} value={guarantorData.title} onChange={e => setGuarantorData({ ...guarantorData, title: e.target.value})} placeholder='Title' required={true} />
-                <input className={styles.file_input} value={guarantorData.address} onChange={e => setGuarantorData({ ...guarantorData, address: e.target.value})} placeholder='Address' /> {/* TODO: Replace this with an autocomplete */}
-                <input className={styles.file_input} value={guarantorData.email} onChange={e => setGuarantorData({ ...guarantorData, email: e.target.value})} placeholder='Email' />
-                <input className={styles.file_input} value={guarantorData.phone} onChange={e => setGuarantorData({ ...guarantorData, phone: e.target.value})} placeholder='Phone' />
-                <input 
-                    className={styles.file_input}
-                    type="file"
-                    onChange={(e) => setFileData(e.target.files[0])}
-                />
-                <CategoryDropdownAdmin {...{ selectedCategories, setSelectedCategories }} />
-                <TagDropdownAdmin {...{ selectedTags, setSelectedTags }} />
-                <textarea className={styles.file_input} rows={4} cols={30} value={guarantorData.description} onChange={e => setGuarantorData({ ...guarantorData, description: e.target.value})} placeholder='Description' required={true} />
-                <textarea className={styles.file_input} rows={3} cols={30} value={guarantorData.shortDescription} onChange={e => setGuarantorData({ ...guarantorData, shortDescription: e.target.value})} placeholder='Short Description' />
-                <button type="button" className={styles.file_input} onClick={handleSubmit}>Submit</button>
-            </form>
+            <div className={styles.admin_content}>
+                <h1>Add Guarantor</h1>
+                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                    <div style={{ flexDirection: 'column', display: 'flex', flex: 1 }}>
+                        <h3 className={styles.admin_header}>Required</h3>
+                        <AdminTextBox header="Title" value={guarantorData.title} setValue={(val: string) => setGuarantorData({ ...guarantorData, title: val })} />
+                        <AdminTextBox header="Description" rows={4} value={guarantorData.description} setValue={(val: string) => setGuarantorData({ ...guarantorData, description: val })} />
+                        <AdminTextBox header="Short Description" rows={3} value={guarantorData.shortDescription} setValue={(val: string) => setGuarantorData({ ...guarantorData, shortDescription: val })} />
+                        <AdminTextBox
+                            header='Organization Image'
+                            type='file'
+                            setValue={(e) => { setFileData({ ...fileData, file: e }); }}
+                        />
+                    </div>
+                    <div style={{ flexDirection: 'column', display: 'flex', flex: 1 }}>
+                        <h3 className={styles.admin_header}>Optional</h3>
+                        <AdminTextBox header="Address" value={guarantorData.address} setValue={(val: string) => setGuarantorData({ ...guarantorData, address: val })} /> {/* TODO: Replace this with an autocomplete */}
+                        <AdminTextBox header="Email" value={guarantorData.email} setValue={(val: string) => setGuarantorData({ ...guarantorData, email: val })} />
+                        <AdminTextBox header="Phone" value={guarantorData.phone} setValue={(val: string) => setGuarantorData({ ...guarantorData, phone: val })} />
+                        <AdminTextBox header="Website" value={guarantorData.website} setValue={(val: string) => setGuarantorData({ ...guarantorData, website: val })} />
+                        <CategoryDropdownAdmin {...{ selectedCategories, setSelectedCategories }} />
+                        <TagDropdownAdmin {...{ selectedTags, setSelectedTags }} />
+                    </div>
+                </div>
+            </div>
+            <AdminButton message='Submit' onClick={handleSubmit} size='large' />
             <Link href="/admin">
-                <button className={styles.main_button}>Go Back</button>
+                <AdminButton message='Go Back' onClick={() => null} />
             </Link>
         </div>
     );

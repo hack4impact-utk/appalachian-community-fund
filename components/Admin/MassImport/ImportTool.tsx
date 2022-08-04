@@ -5,6 +5,7 @@ import styles from '../../../styles/Home.module.scss';
 import ReactFileReader from 'react-file-reader';
 import { WP_Post } from '../../../utils/wordpressInterfaces';
 import { articleStruct } from '../../../utils/interfaces';
+import { IGuarantor } from '../Guarantor/GuarantorMain';
 import Papa from 'papaparse';
 
 interface IFileDataRaw {
@@ -26,6 +27,7 @@ interface IFileDataRaw {
 }
 
 const ImportTool: React.FC = () => {
+
     // Handle user given file
     let handleFile = (files) => {
         // Papa.parse uses HTML's built in FileReader. The results are gotten by a callback function
@@ -61,17 +63,17 @@ const ImportTool: React.FC = () => {
                 console.log(baseTypedFilter);
 
                 //Now we have
-                baseFilter.forEach(x => {
-                    let dataRow: any; //We don't use a datatype here since it will yell at us about all the missing fields
-                    dataRow.title = x['Name'];
-                    dataRow.content = ``;
-                    //To do the tags and categories, we must get the ID's for each string hat was listed
-
-                    //If there is a website listed, we need to post this as a seperate URL
-                    if (x['Website '] !== '') {
-                        dataRow.format = 'link';
-                        dataRow.content += `\nLINK@${x['Website ']}`;
-                    }
+                baseTypedFilter.forEach(x => {
+                    //For now, we will convert all of these to Guarantors
+                    let dataRow: IGuarantor = {
+                        title: x.name,
+                        description: x.description,
+                        shortDescription: x.previewDescription,
+                        address: x.physicalAddress,
+                        email: x.email,
+                        phone: x.phoneNumber,
+                        website: x.website
+                    };
                 });
             }
         });
