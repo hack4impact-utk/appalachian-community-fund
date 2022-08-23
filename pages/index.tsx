@@ -7,12 +7,6 @@ import styles from '../styles/Home.module.scss'
 
 const Home: React.FunctionComponent = () => {
 
-	//TODO: figure out why this isn't working
-	const navigate = useNavigate();
-
-	useEffect(() => {
-		navigate('/search', { replace: true })
-	}, []);
 
 	return (
 		<div className={styles.container}>

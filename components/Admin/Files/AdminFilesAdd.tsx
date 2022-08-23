@@ -10,6 +10,8 @@ import CategoryDropdownAdmin from '../Shared/CategoryDropdown';
 import TagDropdownAdmin from '../Shared/TagsDropdown';
 import AdminTextBox from '../Shared/AdminTextbox';
 import AdminButton from '../Shared/AdminButton';
+import StateDropdown from '../Shared/StateDropdown';
+import { SaveAddressAndState } from '../../../utils/dataHelper';
 import { categoryStruct, tagStruct } from '../../../utils/interfaces';
 import { WP_Post, WP_Media } from '../../../utils/wordpressInterfaces';
 
@@ -68,6 +70,8 @@ const AdminFilesAdd: React.FunctionComponent = () => {
             })).data;
     
             console.log(associatedPost);
+
+            await SaveAddressAndState(associatedPost.id, newFileData.address, newFileData.stateId);
         }
         catch (ex) {
             console.log(ex);
@@ -97,6 +101,11 @@ const AdminFilesAdd: React.FunctionComponent = () => {
                         <TagDropdownAdmin 
                             {...{ selectedTags, setSelectedTags }}
                         />
+                        <StateDropdown 
+                            selectedState={newFileData.stateId}
+                            setSelectedState={(val: number) => setNewFileData({ ...newFileData, stateId: val.toString() })}
+                        />
+                        <AdminTextBox header="Address" value={newFileData.address} setValue={(val: string) => setNewFileData({ ...newFileData, address: val })} /> {/* TODO: Replace this with an autocomplete */}
                         <AdminTextBox header='Author' value={newFileData.author} setValue={(e) => setNewFileData({ ...newFileData, author: e as string })} />
                         <AdminTextBox 
                             header='Date of Article' 

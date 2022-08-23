@@ -11,6 +11,7 @@ import TagDropdownAdmin from '../Shared/TagsDropdown';
 import AdminTextBox from '../Shared/AdminTextbox';
 import { AdminFilesAddData } from '../../../utils/adminInterfaces';
 import AdminButton from '../Shared/AdminButton';
+import StateDropdown from '../Shared/StateDropdown';
 import styles from '../../../styles/Admin.module.scss';
 
 //NOTE: This is how this page works. First the layout was create in Wordpress of how we wanted this data to look
@@ -23,7 +24,8 @@ interface IGuarantor {
     address: string,
     email: string,
     phone: string,
-    website: string
+    website: string,
+    state: number
 }
 
 const defaultGuarantor: IGuarantor = {
@@ -33,7 +35,8 @@ const defaultGuarantor: IGuarantor = {
     address: '',
     email: '',
     phone: '',
-    website: ''
+    website: '',
+    state: 0
 }
 
 const GuarantorMain: React.FC = () => {
@@ -84,6 +87,7 @@ const GuarantorMain: React.FC = () => {
                         <AdminTextBox header="Website" value={guarantorData.website} setValue={(val: string) => setGuarantorData({ ...guarantorData, website: val })} />
                         <CategoryDropdownAdmin {...{ selectedCategories, setSelectedCategories }} />
                         <TagDropdownAdmin {...{ selectedTags, setSelectedTags }} />
+                        <StateDropdown selectedState={guarantorData.state || ''} setSelectedState={(val: number) => setGuarantorData({ ...guarantorData, state: val })} />
                     </div>
                 </div>
             </div>

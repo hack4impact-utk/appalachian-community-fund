@@ -5,7 +5,7 @@ import { handleUpload } from './fileUploadHelper';
 import { categoryStruct, tagStruct } from './interfaces';
 import { GetAuth } from '../lib/auth';
 import { IGuarantor } from  '../components/Admin/Guarantor/GuarantorMain';
-import { AddAddressAsync } from './dataHelper';
+import { AddAddressAsync, AddStateAsync, SaveAddressAndState } from './dataHelper';
 import moment from 'moment';
 
 interface ITemplate {
@@ -116,18 +116,7 @@ const CreateGuarantorPost = async (guarantorData: IGuarantor, selectedCategories
         console.log(associatedPost);
         toast.success('Guarantor Added!');
 
-        //Save the address if there is one
-        if (guarantorData.address) {
-            try {
-                await AddAddressAsync({
-                    postId: associatedPost.id,
-                    address: guarantorData.address,
-                });
-            }
-            catch (ex) {
-                toast.error('Failed to save address!');
-            }
-        }
+        await SaveAddressAndState(associatedPost.id, guarantorData.address, guarantorData.state.toString());
 
         return true;
     }

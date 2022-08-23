@@ -16,6 +16,7 @@ const executeQuery = async (query: string, values: any): Promise<any> => {
         await db.end();
         return results;
     } catch (error) {
+        console.log(error);
         return error;
     }
 }

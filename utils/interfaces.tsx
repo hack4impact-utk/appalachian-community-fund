@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 import { AdminPages } from "../pages/_app";
 import { WP_Post } from "./wordpressInterfaces";
+import { IState } from "./dataHelper";
 import { LinkPages } from "../components/Admin/Links/AdminLinksMain";
 import { FilePage } from "../components/Admin/Files/AdminFilesMain";
 
@@ -55,6 +56,7 @@ export interface searchContextStruct {
 export interface adminContextStruct {
     StartLoad: () => void;
     EndLoad: () => void;
+    allStates: IState[]
 }
 
 export interface adminLinksContextStruct {

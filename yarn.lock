@@ -3358,6 +3358,16 @@
   "resolved" "https://registry.npmjs.org/sprintf-js/-/sprintf-js-1.0.3.tgz"
   "version" "1.0.3"
 
+"sqlstring@^2.3.3":
+  "integrity" "sha512-qC9iz2FlN7DQl3+wjwn3802RTyjCx7sDvfQEXchwa6CWOx07/WVfh91gBmQ9fahw8snwGEWU3xGzOt4tFyHLxg=="
+  "resolved" "https://registry.npmjs.org/sqlstring/-/sqlstring-2.3.3.tgz"
+  "version" "2.3.3"
+
+"sqlstring@2.3.1":
+  "integrity" "sha512-ooAzh/7dxIG5+uDik1z/Rd1vli0+38izZhGzSa34FwR7IbelPWCCKSNIl8jlL/F7ERvy8CB2jNeM1E9i9mXMAQ=="
+  "resolved" "https://registry.npmjs.org/sqlstring/-/sqlstring-2.3.1.tgz"
+  "version" "2.3.1"
+
 "stoppable@^1.1.0":
   "integrity" "sha512-KXDYZ9dszj6bzvnEMRYvxgeTHU74QBFL54XKtP3nyMuJ81CFYtABZ3bAzL2EdFUaEwJOBOgENyFj3R7oTzDyyw=="
   "resolved" "https://registry.npmjs.org/stoppable/-/stoppable-1.1.0.tgz"

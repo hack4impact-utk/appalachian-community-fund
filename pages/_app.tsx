@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
 import { ClipLoader } from 'react-spinners';
 import 'react-toastify/dist/ReactToastify.css';
@@ -7,6 +7,7 @@ import Script from 'next/script';
 import Navbar from '../components/navbar';
 import '../styles/globals.scss';
 import { adminContextStruct } from '../utils/interfaces';
+import { GetAllStatesAsync, IState } from '../utils/dataHelper';
 import { navLinks } from '../utils/navlinks';
 
 const AdminContext = React.createContext<adminContextStruct | null>(null);
@@ -24,6 +25,17 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     //&callback=initMap
 
     const [isLoading, setIsLoading] = useState<number>(0);
+    const [allStates, setAllStates] = useState<IState[]>([]);
+
+    useEffect(() => {
+        init();
+    }, []);
+
+    const init = async () => {
+        //Load stuff here that only needs to be loaded once
+        const states = await GetAllStatesAsync();
+        setAllStates(states);
+    }
 
     const StartLoad = () => {
         console.log(`Starting Load on ${isLoading+1}`);
@@ -58,7 +70,8 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
             <AdminContext.Provider
                 value={{
                     StartLoad,
-                    EndLoad
+                    EndLoad,
+                    allStates
                 }}
             >
                 <Component {...pageProps} />

@@ -103,6 +103,7 @@
         /*This must override Material UI's CSS*/
         @extend .input;
         border-radius: 0px !important;
+        font-family: vars.$font-primary;
         /*TODO: Change the border color to match the regular inputs*/
     }
 }

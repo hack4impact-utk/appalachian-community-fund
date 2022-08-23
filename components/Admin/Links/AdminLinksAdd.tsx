@@ -7,8 +7,10 @@ import { AdminLinksContext, LinkPages } from './AdminLinksMain';
 import { categoryStruct, tagStruct } from '../../../utils/interfaces';
 import { GetAuth } from '../../../lib/auth';
 import { WP_Post } from '../../../utils/wordpressInterfaces';
+import { SaveAddressAndState } from '../../../utils/dataHelper';
 import AdminTextBox from '../Shared/AdminTextbox';
 import AdminButton from '../Shared/AdminButton';
+import StateDropdown from '../Shared/StateDropdown';
 import styles from '../../../styles/Admin.module.scss';
 
 const AdminLinksAdd: React.FunctionComponent = () => {
@@ -48,6 +50,8 @@ const AdminLinksAdd: React.FunctionComponent = () => {
 
             console.log(associatedPost);
             setLinkData(defaultAdminLinkAddData);
+
+            await SaveAddressAndState(associatedPost.id, linkData.address, linkData.state);
         }
         catch (ex) {
             console.log(ex);
@@ -68,12 +72,18 @@ const AdminLinksAdd: React.FunctionComponent = () => {
                     </div>
                     <div style={{ flexDirection: 'column', display: 'flex', flex: 1 }}>
                         <h3 className={styles.admin_header}>Optional</h3>
+                        <AdminTextBox header="Address" value={linkData.address} setValue={(val: string) => setLinkData({ ...linkData, address: val })} /> {/* TODO: Replace this with an autocomplete */}
                         <CategoryDropdownAdmin 
                             {...{ selectedCategories, setSelectedCategories }}
                         />
 
                         <TagDropdownAdmin 
                             {...{ selectedTags, setSelectedTags }}
+                        />
+
+                        <StateDropdown 
+                            selectedState={parseInt(linkData.state)}
+                            setSelectedState={(val: number) => setLinkData({ ...linkData, state: val.toString() })}
                         />
                     </div> 
                 </div>
